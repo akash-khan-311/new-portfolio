@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {   Geist, Geist_Mono,Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import MainNavbar from "@/components/Navbar";
 import ThemeGuard from "./Provider/ThemeGuard";
@@ -17,9 +17,7 @@ const geistMono = Geist_Mono({
 const space = Space_Grotesk({
   variable: "--font-space_grotesk",
   subsets: ["latin"],
-})
-
-
+});
 
 export const metadata: Metadata = {
   title: "Md Akash Ali",
@@ -32,19 +30,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${space.variable}  h-full antialiased`}
-    >
+    <html lang="en" className={`${space.variable}  dark:bg-[#111111] h-full`}>
       <body className="min-h-full flex flex-col">
-      <ThemeGuard />
+        <ThemeGuard />
         <header>
-          <MainNavbar/>
+          <MainNavbar />
         </header>
-        <main className="max-w-7xl mx-auto md:px-0 px-3">
-        {children}
-        </main>
-        </body>
+        <main className="container mx-auto md:px-0 px-3">{children}</main>
+      </body>
     </html>
   );
 }
