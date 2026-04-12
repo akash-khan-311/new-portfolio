@@ -14,11 +14,11 @@ export default function HeroSection() {
         {/* Top: Greeting */}
         <div className="flex items-center gap-2">
           <span className="text-lg select-none">👋</span>
-          <span className="text-primary text-sm tracking-wide">
+          <span className=" text-sm tracking-wide">
             Hey! It&apos;s me Akash.
           </span>
         </div>
-        <h1 className=" text-white text-5xl md:text-6xl lg:text-7xl font-semibold lg:leading-20 md:leading-18 leading-14 ">
+        <h1 className=" dark:text-white text-5xl md:text-6xl lg:text-7xl font-semibold lg:leading-20 md:leading-18 leading-14 ">
           Building{" "}
           <span className="text-[#87e63b]">
             web apps
@@ -29,10 +29,24 @@ export default function HeroSection() {
           <br />
           beautiful on the screen.
         </h1>
-        <div className="border-t border-[#2a2a2a] py-6 mt-20 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-          {/* Social Links */}
+        <div className=" w-full py-6 mt-20 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+          {/* Tagline + CTA */}
+          <div className="w-full flex flex-col md:flex-row justify-between items-center gap-10">
+            {/* Line */}
+            <div className="bg-[#191920] h-px w-full md:mx-w-1/2"></div>
+            {/* Text */}
+            <div className="w-full md:w-1/2 text-pretty lg:text-right">
+              <p className=" text-[#aaaaaa] text-sm leading-relaxed sm:text-right">
+                I work with brands globally to build pixel-perfect, engaging,
+                and accessible digital experiences that drive results and
+                achieve business goals.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex  justify-between gap-2">
           <nav
-            className="flex flex-wrap items-center gap-x-6 gap-y-3"
+            className="md:flex hidden flex-wrap items-center gap-x-6 gap-y-3"
             aria-label="Social links"
           >
             {socials.map(({ label, href }) => (
@@ -48,22 +62,13 @@ export default function HeroSection() {
               </Link>
             ))}
           </nav>
-
-          {/* Tagline + CTA */}
-          <div className="flex flex-col items-start sm:items-end gap-4 sm:max-w-sm">
-            <p className="text-[#aaaaaa] text-sm leading-relaxed sm:text-right">
-              I work with brands globally to build pixel-perfect, engaging, and
-              accessible digital experiences that drive results and achieve
-              business goals.
-            </p>
-            <a
-              href="#"
-              className="inline-block px-8 py-3 border border-white rounded-full text-white text-sm font-semibold tracking-wide hover:bg-white hover:text-[#111111] transition-all duration-200 whitespace-nowrap"
-            >
-              Know me better
-            </a>
+          <a
+          href="#"
+          className="inline-block px-8 py-3 border border-white rounded-full text-white text-sm font-semibold tracking-wide hover:bg-white hover:text-[#111111] transition-all duration-200 whitespace-nowrap"
+        >
+          Know me better
+        </a>
           </div>
-        </div>
       </div>
     </section>
   );
