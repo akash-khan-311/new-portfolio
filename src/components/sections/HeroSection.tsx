@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 
 const socials: { label: string; href: string }[] = [
   { label: "LINKEDIN", href: "#" },
@@ -33,7 +32,7 @@ export default function HeroSection() {
           {/* Tagline + CTA */}
           <div className="w-full flex flex-col md:flex-row justify-between items-center gap-10">
             {/* Line */}
-            <div className="bg-[#191920] h-px w-full md:mx-w-1/2"></div>
+            <div className="dark:bg-[#191920] bg-[#e5e7eb] h-px w-full md:mx-w-1/2"></div>
             {/* Text */}
             <div className="w-full md:w-1/2 text-pretty lg:text-right">
               <p className=" text-[#aaaaaa] text-sm leading-relaxed sm:text-right">
@@ -63,12 +62,12 @@ export default function HeroSection() {
             ))}
           </nav>
           <a
-          href="#"
-          className="inline-block px-8 py-3 border border-white rounded-full text-white text-sm font-semibold tracking-wide hover:bg-white hover:text-[#111111] transition-all duration-200 whitespace-nowrap"
-        >
-          Know me better
-        </a>
-          </div>
+            href="#"
+            className="inline-block px-8 py-3 border border-white rounded-full text-white text-sm font-semibold tracking-wide hover:bg-white hover:text-[#111111] transition-all duration-200 whitespace-nowrap"
+          >
+            Know me better
+          </a>
+        </div>
       </div>
     </section>
   );
