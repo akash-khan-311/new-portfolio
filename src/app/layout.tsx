@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import MainNavbar from "@/components/Navbar";
 import ThemeGuard from "./Provider/ThemeGuard";
+import AOSProvider from "./Provider/AOSProvider";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 const space = Space_Grotesk({
-  variable: "--font-space_grotesk",
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
@@ -33,10 +35,12 @@ export default function RootLayout({
     <html lang="en" className={`${space.variable}  dark:bg-[#111111] h-full`}>
       <body className="min-h-full flex flex-col">
         <ThemeGuard />
-        <header>
-          <MainNavbar />
-        </header>
-        <main className="container mx-auto md:px-0 px-3">{children}</main>
+        <AOSProvider>
+          <header>
+            <MainNavbar />
+          </header>
+          <main className="">{children}</main>
+        </AOSProvider>
       </body>
     </html>
   );

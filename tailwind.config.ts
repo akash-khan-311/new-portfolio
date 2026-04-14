@@ -13,8 +13,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
-        mono: ["var(--font-geist-mono)", ...defaultTheme.fontFamily.mono],
+        sans: ["var(--font-space-grotesk)"], 
+        mono: ["var(--font-geist-mono)"],
+        geist: ["var(--font-geist-sans)"],
       },
     },
   },

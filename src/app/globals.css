@@ -6,7 +6,7 @@
 
 @theme inline {
   /* Configure your theme variables here */
-  
+
   --color-primary-500: oklch(0.84 0.18 117.33);
   --spacing: 0.25rem;
   --font-heading: var(--font-sans);
@@ -51,9 +51,12 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+
+
 .text-primary {
-  color: #b5ff6d ;
+  color: #b5ff6d;
 }
+
 .bg-primary {
   background-color: #b5ff6d;
 }
@@ -127,12 +130,19 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+section {
+  padding: 100px 0
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
+
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-space-grotesk), sans-serif;
   }
 
 }
