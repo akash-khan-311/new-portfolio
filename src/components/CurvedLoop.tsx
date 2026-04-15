@@ -1,8 +1,16 @@
+import Image from "next/image"
 
-type Props = {
-  items: string[]
+type items = {
+  label: string,
+  image?: string
 }
-const CurvedLoop = ({ items = [] } : Props) => {
+type Props = {
+  items: items[]
+  className?: string
+  
+}
+
+const CurvedLoop = ({ items = [], className,   } : Props) => {
   // Duplicate items to create seamless loop
   const repeated = [...items, ...items, ...items];
 
@@ -20,7 +28,7 @@ const CurvedLoop = ({ items = [] } : Props) => {
         .marquee-track {
           display: flex;
           width: max-content;
-          animation: marquee 150s linear infinite;
+          animation: marquee 40s linear infinite;
         }
 
       `}</style>
@@ -29,10 +37,10 @@ const CurvedLoop = ({ items = [] } : Props) => {
         {repeated.map((item, index) => (
           <span
             key={index}
-            className="flex items-center gap-4 px-2 text-[#cbd5e1] dark:text-[#3a3a3a] text-4xl  tracking-widest uppercase whitespace-nowrap select-none"
+            className={`${className} flex items-center gap-4 px-2   tracking-widest whitespace-nowrap select-none`}
           >
-            {item}
-            <span className="dark:text-[#3a3a3a] ">✦</span>
+            {item.image &&  <Image src={item?.image} alt={item.label} width={20} height={20} />}
+            {item.label}
           </span>
         ))}
       </div>

@@ -43,7 +43,7 @@ const CircularText: React.FC<CircularTextProps> = ({
       scale: 1,
       transition: getTransition(spinDuration, start)
     });
-  }, [spinDuration, text, onHover, controls]);
+  }, [spinDuration, text, onHover, controls, rotation]);
 
   const handleHoverStart = () => {
     const start = rotation.get();
@@ -92,7 +92,7 @@ const CircularText: React.FC<CircularTextProps> = ({
 
   return (
     <motion.div
-      className={`m-0 mx-auto rounded-full z-50 w-40 h-40  relative font-black  text-center cursor-pointer origin-center ${className}`}
+      className={`m-0 mx-auto rounded-full z-50 w-30 h-30  bg-gray-950 relative font-black  text-center cursor-pointer origin-center ${className}`}
       style={{ rotate: rotation }}
       initial={{ rotate: 0 }}
       animate={controls}

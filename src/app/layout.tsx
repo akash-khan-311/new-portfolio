@@ -1,20 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import MainNavbar from "@/components/Navbar";
+
 import ThemeGuard from "./Provider/ThemeGuard";
-import AOSProvider from "./Provider/AOSProvider";
+
+import ClientWraper from "./Wraper/ClientWrapper";
 
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const space = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -32,15 +25,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${space.variable}  dark:bg-[#111111] h-full`}>
+    <html
+      lang="en"
+      className={`${space.variable} dark:bg-[#111111] bg-gray-200  h-full overflow-x-hidden`}
+    >
       <body className="min-h-full flex flex-col">
         <ThemeGuard />
-        <AOSProvider>
-          <header>
-            <MainNavbar />
-          </header>
-          <main className="">{children}</main>
-        </AOSProvider>
+        <ClientWraper>{children}</ClientWraper>
       </body>
     </html>
   );

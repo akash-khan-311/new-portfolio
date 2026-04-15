@@ -16,8 +16,11 @@ export default function AppThemeSwitch() {
   });
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    if(!mounted) {
+
+      setMounted(true);
+    }
+  }, [mounted]);
 
   useEffect(() => {
     if (!mounted) return;

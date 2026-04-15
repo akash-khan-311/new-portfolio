@@ -133,12 +133,12 @@ const SectionMiniTitle: React.FC<Props> = ({
       data-aos-easing="ease-in-out-sine"
       data-aos-delay="0"
       data-aos-once="true"
-      className={`flex items-center gap-x-2 ${className}`}
+      className={`flex items-center gap-x-2 uppercase ${className}`}
       style={{ ...gradientStyle, backgroundPosition }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <span>
+      <span >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="18"
@@ -147,8 +147,8 @@ const SectionMiniTitle: React.FC<Props> = ({
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           className="text-primary"
           aria-hidden="true"
         >
