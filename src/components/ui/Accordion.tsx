@@ -101,7 +101,7 @@ export default function AccordionSection({ items }: AccordionSectionProps) {
               <AccordionItem
                 key={index}
                 item={item}
-                isOpen={openIndex === index}
+                isOpen={openIndex == index}
                 onToggle={() => handleToggle(index)}
               />
             ))}

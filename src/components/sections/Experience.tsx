@@ -1,7 +1,8 @@
 import React from "react";
 import SectionMiniTitle from "../SectionMiniTitle";
-import SectionTitle from "../ui/SectionTitle";
+
 import AccordionSection from "../ui/Accordion";
+import SectionTitle from "../SectionTitle";
 
 const experienceData = [
   {
@@ -36,13 +37,13 @@ const experienceData = [
 export default function Experience() {
   return (
     <section className="container mx-auto px-3 md:px-0">
-      <div className="flex flex-col md:flex-row justify-center ">
-        <div className="max-w-xl">
+      <div className="flex flex-col lg:flex-row justify-center ">
+        <div className="max-w-xl text-center lg:text-left">
           <SectionMiniTitle
             text="work history"
             speed={2}
             delay={0}
-            className=""
+            className="text-center md:text-left flex lg:justify-start justify-center lg:items-center"
             color="#57ea61"
             shineColor="#ffffff"
             spread={120}
@@ -51,7 +52,19 @@ export default function Experience() {
             pauseOnHover={false}
             disabled={false}
           />
-          <SectionTitle text="Experience" />
+          <SectionTitle
+            text="Experience"
+            className="text-3xl md:text-4xl lg:text-5xl font-semibold  my-3"
+            delay={50}
+            duration={1.25}
+            ease="power3.out"
+            splitType="chars"
+            from={{ opacity: 0, y: 40 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0.1}
+            rootMargin="-100px"
+            textAlign="center"
+          />
           <p className="text-balance">
             I have worked with some of the most innovative industry leaders to
             help build their top-notch products.

@@ -13,38 +13,26 @@ import {
 import { useState } from "react";
 import AppThemeSwitch from "./ui/ThemeSwitch";
 
-export default function MainNavbar() {
-  const navItems = [
-    {
-      name: "Home",
-      link: "/",
-    },
-    {
-      name: "About",
-      link: "#about",
-    },
-    {
-      name: "Projects",
-      link: "#projects",
-    },
-    {
-      name: "Contact",
-      link: "#contact",
-    },
-  ];
+type NavItems = {
+  name: string;
+  link: string;
+};
+type Props = {
+  navItems: NavItems[];
+};
 
+export default function MainNavbar({ navItems }: Props) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className=" relative w-full mt-5">
+    <div className=" relative w-full mt-5 hidden md:block">
       <Navbar>
         {/* Desktop Navigation */}
         <NavBody>
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4 relative">
-              <AppThemeSwitch />
-            
+            <AppThemeSwitch />
           </div>
         </NavBody>
 
@@ -91,11 +79,8 @@ export default function MainNavbar() {
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
-  
 
       {/* Navbar */}
     </div>
   );
 }
-
-
