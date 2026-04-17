@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import React, { useRef, useEffect, useState } from "react";
@@ -35,7 +36,7 @@ const SectionTitle: React.FC<SplitTextProps> = ({
   to = { opacity: 1, y: 0 },
   threshold = 0.1,
   rootMargin = "-100px",
-  tag = "p",
+  tag = "h2",
   textAlign = "center",
   onLetterAnimationComplete,
 }) => {
@@ -169,7 +170,7 @@ const SectionTitle: React.FC<SplitTextProps> = ({
       willChange: "transform, opacity",
     };
     const classes = `split-parent overflow-hidden inline-block whitespace-normal ${className}`;
-    const Tag = (tag || "p") as React.ElementType;
+    const Tag = (tag || "h2") as React.ElementType;
 
     return (
       <Tag ref={ref} style={style} className={classes}>

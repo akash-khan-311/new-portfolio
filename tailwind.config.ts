@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-import defaultTheme  from"tailwindcss/defaultTheme";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 const config: Config = {
   darkMode: "class",
@@ -13,12 +13,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-space-grotesk)"], 
-        mono: ["var(--font-geist-mono)"],
-        geist: ["var(--font-geist-sans)"],
+        satoshi: ["var(--font-satoshi)"],
+        clash: ["var(--font-clash)"],
       },
     },
   },
-  
 };
 export default config;

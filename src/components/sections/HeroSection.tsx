@@ -18,10 +18,10 @@ export default function HeroSection() {
           data-aos-easing="ease-in-out-sine"
           data-aos-delay="0"
           data-aos-once="true"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 "
         >
           <span className="text-lg select-none">👋</span>
-          <span className=" text-sm tracking-wide">
+          <span className=" text-sm tracking-wide ">
             Hey! It&apos;s me Akash.
           </span>
         </div>
@@ -32,7 +32,7 @@ export default function HeroSection() {
           data-aos-easing="ease-in-out-sine"
           data-aos-delay="200"
           data-aos-once="true"
-          className=" dark:text-white text-5xl md:text-6xl lg:text-7xl font-semibold lg:leading-20 md:leading-18 leading-14 "
+          className=" dark:text-white text-5xl md:text-6xl lg:text-7xl font-semibold lg:leading-20 md:leading-18 leading-14 font-clash "
         >
           Building{" "}
           <span className="text-[#87e63b]">

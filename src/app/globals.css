@@ -51,8 +51,6 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-
-
 .text-primary {
   color: #b5ff6d;
 }
@@ -130,6 +128,16 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+
+
+.font-clash {
+  font-family: 'clashDisplay' !important;
+}
+
+.font-satoshi {
+  font-family: 'satoshi' !important;
+}
+
 section {
   padding: 100px 0
 }
@@ -142,7 +150,7 @@ section {
 
   body {
     @apply bg-[#f7f8fa] dark:bg-[#0b0b0d] text-foreground;
-    font-family: var(--font-space-grotesk), sans-serif;
+
   }
 
 }

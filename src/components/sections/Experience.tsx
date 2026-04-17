@@ -43,7 +43,7 @@ export default function Experience() {
             text="work history"
             speed={2}
             delay={0}
-            className="text-center md:text-left flex lg:justify-start justify-center lg:items-center"
+            className="text-center md:text-left flex lg:justify-start justify-center lg:items-center "
             color="#57ea61"
             shineColor="#ffffff"
             spread={120}
@@ -54,7 +54,7 @@ export default function Experience() {
           />
           <SectionTitle
             text="Experience"
-            className="text-3xl md:text-4xl lg:text-5xl font-semibold  my-3"
+            className="text-3xl md:text-4xl lg:text-5xl font-semibold  my-3 font-clash"
             delay={50}
             duration={1.25}
             ease="power3.out"

@@ -94,7 +94,7 @@ export default function AboutSection() {
             </div>
             {/* title and descriptions*/}
             <div className="">
-              <h2 className="dark:text-white text-5xl md:text-6xl lg:text-7xl font-semibold lg:leading-20 md:leading-18 leading-14">
+              <h2 className="dark:text-white text-5xl md:text-6xl lg:text-7xl font-semibold lg:leading-20 md:leading-18 leading-14 font-clash">
                 A Creative <br className="hidden sm:block" />{" "}
                 <span className="text-[#87e63b]">MERN Developer</span> & UI
                 Experience Builder
@@ -114,7 +114,7 @@ export default function AboutSection() {
         <div className="my-20 ">
           <CurvedLoop
             items={items}
-            className="rounded-full py-3 px-8 dark:bg-[#141419] bg-white text-sm mx-2"
+            className="rounded-full py-3 px-8 dark:bg-[#141419] bg-white text-sm mx-2 font-satoshi"
           />
         </div>
       </section>
