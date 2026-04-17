@@ -1,7 +1,12 @@
-
-export default function Button({text, className} : {text: string, className?: string}) {
+export default function Button({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) {
   return (
-    <button className="cursor-pointer font-semibold overflow-hidden relative z-100 border border-green-500 group px-8 py-2 rounded-full">
+    <button className="cursor-pointer font-semibold overflow-hidden relative z-10 border border-green-500 group px-8 py-2 rounded-full">
       <span className="relative z-10 text-green-500 group-hover:text-white text-lg duration-500">
         {text}
       </span>

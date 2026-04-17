@@ -39,7 +39,7 @@ export default function Footer() {
             <div className="space-y-5">
               <SectionTitle
                 text="Let's create your next big idea."
-                className="text-3xl md:text-4xl lg:text-5xl font-semibold my-3"
+                className="text-3xl md:text-4xl lg:text-5xl font-semibold my-3 py-3 font.clash"
                 delay={50}
                 duration={1.25}
                 ease="power3.out"

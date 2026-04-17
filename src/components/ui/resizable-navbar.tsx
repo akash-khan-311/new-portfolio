@@ -58,7 +58,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
   const [visible, setVisible] = useState<boolean>(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > 100) {
+    if (latest > 0) {
       setVisible(true);
     } else {
       setVisible(false);
@@ -234,9 +234,11 @@ export const NavbarLogo = () => {
   return (
     <Link
       href="#"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 font-bold"
     >
-      <span className="font- text-xl text-black dark:text-white">AK</span>
+      <span className="font- text-xl dark:text-primary text-black  uppercase ">
+        A k a s h
+      </span>
     </Link>
   );
 };

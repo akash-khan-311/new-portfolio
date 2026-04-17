@@ -169,7 +169,7 @@ const SectionTitle: React.FC<SplitTextProps> = ({
       wordWrap: "break-word",
       willChange: "transform, opacity",
     };
-    const classes = `split-parent overflow-hidden inline-block whitespace-normal ${className}`;
+    const classes = `split-parent overflow-hidden inline-block whitespace-normal font-clash ${className}`;
     const Tag = (tag || "h2") as React.ElementType;
 
     return (
