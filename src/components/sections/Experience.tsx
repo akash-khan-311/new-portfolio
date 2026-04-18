@@ -36,7 +36,7 @@ const experienceData = [
 
 export default function Experience() {
   return (
-    <section className="container mx-auto px-3 md:px-0">
+    <section className="container mx-auto px-3 md:px-0 lg:pb-36 md:pb-24 pb-20">
       <div className="flex flex-col lg:flex-row justify-center ">
         <div className="max-w-xl text-center lg:text-left">
           <SectionMiniTitle

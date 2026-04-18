@@ -31,7 +31,7 @@ const items = [
 export default function AboutSection() {
   return (
     <>
-      <section>
+      <section className="my-36">
         <div className="container mx-auto md:px-0 px-3">
           <>
             <SectionMiniTitle
@@ -61,11 +61,11 @@ export default function AboutSection() {
               delay={220}
               animateBy="words"
               direction="top"
-              className="text-lg md:text-xl lg:text-2xl font-light mb-8 max-w-6xl mx-auto text-center flex justify-center items-center leading-relaxed"
+              className="text-lg md:text-lg lg:text-xl font-light mb-8 max-w-6xl mx-auto text-center flex justify-center items-center leading-relaxed"
             />
           </span>
 
-          <div className="flex flex-col lg:flex-row justify-center items-center gap-10">
+          <div className="flex flex-col lg:flex-row justify-center items-center gap-10 ">
             {/* Image */}
             <div className="relative  ">
               <div className="h-full  overflow-hidden rounded-b-full ">
@@ -78,17 +78,17 @@ export default function AboutSection() {
                 />
                 <div className="absolute bottom-0 right-0">
                   <Link className=" relative group  " href={"/contact"}>
-                  {" "}
-                  <CircularText
-                    text="let's talk•let's talk•let's talk•"
-                    onHover="slowDown"
-                    spinDuration={10}
-                    className="relative leading-relaxed font-normal uppercase text-gray-700 text-sm dark:text-gray-400 "
-                  />
-                  <div className="w-12 h-12 border border-gray-400 z-50 rounded-full absolute top-[50%] left-[50%] bottom-[50%] translate-y-[-50%] translate-x-[-50%]">
-                    <ArrowUpRight className="absolute top-[50%] left-[50%] bottom-[50%] translate-y-[-50%] translate-x-[-50%] z-100 text-gray-500  transition-all duration-300 group-hover:rotate-45" />
-                  </div>
-                </Link>
+                    {" "}
+                    <CircularText
+                      text="let's talk•let's talk•let's talk•"
+                      onHover="slowDown"
+                      spinDuration={10}
+                      className="relative leading-relaxed font-normal uppercase text-gray-700 text-sm dark:text-gray-400 "
+                    />
+                    <div className="w-12 h-12 border border-gray-400 z-50 rounded-full absolute top-[50%] left-[50%] bottom-[50%] translate-y-[-50%] translate-x-[-50%]">
+                      <ArrowUpRight className="absolute top-[50%] left-[50%] bottom-[50%] translate-y-[-50%] translate-x-[-50%] z-100 text-gray-500  transition-all duration-300 group-hover:rotate-45" />
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>

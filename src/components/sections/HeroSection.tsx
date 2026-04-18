@@ -8,8 +8,8 @@ const socials: { label: string; href: string }[] = [
 ];
 export default function HeroSection() {
   return (
-    <section className=" min-h-[90vh] flex flex-col justify-between  font-sans antialiased">
-      <div className="flex flex-1 flex-col justify-center pb-10">
+    <section className="lg:pt-48 md:pt-32 pt-20  flex flex-col justify-between  font-sans antialiased">
+      <div className="flex flex-1 flex-col justify-center">
         {/* Top: Greeting */}
         <div
           data-aos="fade"
@@ -51,7 +51,7 @@ export default function HeroSection() {
           data-aos-easing="ease-in-out-sine"
           data-aos-delay="400"
           data-aos-once="true"
-          className=" w-full py-6 mt-20 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6"
+          className=" w-full py-6 lg:mt-20 md:mt-14  flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6"
         >
           {/* Tagline + CTA */}
 

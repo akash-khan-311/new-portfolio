@@ -1,25 +1,24 @@
-import Image from "next/image"
+import Image from "next/image";
 
 type items = {
-  label: string,
-  image?: string
-}
+  label: string;
+  image?: string;
+};
 type Props = {
-  items: items[]
-  className?: string
-  
-}
+  items: items[];
+  className?: string;
+};
 
-const CurvedLoop = ({ items = [], className,   } : Props) => {
+const CurvedLoop = ({ items = [], className }: Props) => {
   // Duplicate items to create seamless loop
   const repeated = [...items, ...items, ...items];
 
   return (
     <div className="w-full border-y dark:border-[#2a2a2a] border-[#cbd5e1] py-4 overflow-hidden relative">
       {/* Left fade */}
-      <div className="absolute left-0 top-0 h-full w-52 z-10 pointer-events-none bg-linear-to-r from-white dark:from-[#111111] to-transparent" />
+      <div className="absolute left-0 top-0 h-full w-10 md:w-52 z-10 pointer-events-none bg-linear-to-r from-white dark:from-[#0b0b0d] to-transparent" />
       {/* Right fade */}
-      <div className="absolute right-0 top-0 h-full w-52 z-10 pointer-events-none bg-linear-to-l from-white dark:from-[#111111] to-transparent" />
+      <div className="absolute right-0 top-0 h-full w-10 md:w-52 z-10 pointer-events-none bg-linear-to-l from-white dark:from-[#0b0b0d] to-transparent" />
       <style>{`
         @keyframes marquee {
           0%   { transform: translateX(0); }
@@ -39,7 +38,14 @@ const CurvedLoop = ({ items = [], className,   } : Props) => {
             key={index}
             className={`${className} flex items-center gap-4 px-2   tracking-widest whitespace-nowrap select-none`}
           >
-            {item.image &&  <Image src={item?.image} alt={item.label} width={20} height={20} />}
+            {item.image && (
+              <Image
+                src={item?.image}
+                alt={item.label}
+                width={20}
+                height={20}
+              />
+            )}
             {item.label}
           </span>
         ))}
