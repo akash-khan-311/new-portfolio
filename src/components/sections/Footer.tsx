@@ -1,4 +1,3 @@
-import React from "react";
 import {
   FaGithub,
   FaTwitter,
@@ -17,7 +16,11 @@ const socialLinks = [
   { icon: FaLinkedin, href: "https://linkedin.com", label: "LinkedIn" },
   { icon: FaInstagram, href: "https://instagram.com", label: "Instagram" },
   { icon: FaYoutube, href: "https://youtube.com", label: "YouTube" },
-  { icon: IoMdMail, href: "mailto:devraj@example.com", label: "Email" },
+  {
+    icon: IoMdMail,
+    href: "mailto:mdakashkhanbdinto@gmail.com",
+    label: "Email",
+  },
 ];
 
 const fullYear = new Date().getFullYear();

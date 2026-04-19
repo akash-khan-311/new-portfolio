@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 import ThemeGuard from "./Provider/ThemeGuard";
