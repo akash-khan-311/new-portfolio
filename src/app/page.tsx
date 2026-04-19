@@ -2,10 +2,8 @@ import CurvedLoop from "@/components/CurvedLoop";
 import AboutSection from "@/components/sections/AboutSection";
 import ContactSection from "@/components/sections/Contact";
 import Experience from "@/components/sections/Experience";
-
 import HeroSection from "@/components/sections/HeroSection";
 import Projects from "@/components/sections/Projects";
-
 const items = [
   { label: "Web Development ✦︎", image: "" },
   { label: "Software Engineer ✦︎", image: "" },

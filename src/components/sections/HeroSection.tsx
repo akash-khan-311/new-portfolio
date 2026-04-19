@@ -98,12 +98,6 @@ export default function HeroSection() {
           <Button className="" href="#contact">
             Know Me better
           </Button>
-          {/* <a
-            href="#"
-            className="inline-block px-8 py-3 border border-white rounded-full text-white text-sm font-semibold tracking-wide hover:bg-white hover:text-[#111111] transition-all duration-200 whitespace-nowrap"
-          >
-            Know me better
-          </a> */}
         </div>
       </div>
     </div>
