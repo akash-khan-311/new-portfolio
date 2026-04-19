@@ -51,7 +51,7 @@ export default function Footer() {
                 textAlign="center"
               />
               <div className="flex justify-center">
-                <Button text="Contact Me" />
+                <Button href="#contact">Contact Me</Button>
               </div>
             </div>
           </div>

@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
-import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import { useMemo } from "react";
 type NavItems = {
   name: string;
   link: string;
@@ -12,8 +11,6 @@ type Props = {
   navItems: NavItems[];
 };
 export default function MobileNav({ navItems }: Props) {
-  const [hovered, setHovered] = useState<number | null>(null);
-
   const sectionIds = useMemo(
     () => navItems.map((link) => link.link.replace("#", "")),
     [navItems],
@@ -37,7 +34,6 @@ export default function MobileNav({ navItems }: Props) {
           return (
             <li key={idx}>
               <button
-                onMouseEnter={() => setHovered(idx)}
                 onClick={() => handleNavClick(item.link)}
                 className={`${activeId === id ? "text-[#b5ff6d]" : ""} p-4 cursor-pointer`}
               >

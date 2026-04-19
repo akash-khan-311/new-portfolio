@@ -121,9 +121,8 @@ export const NavItems = ({ items, className }: NavItemsProps) => {
         return (
           <button
             key={idx}
-            onMouseEnter={() => setHovered(idx)}
             onClick={() => handleNavClick(item.link)}
-            className={`relative flex items-center gap-2 px-4 py-1 text-sm cursor-pointer ${activeId === id && "bg-gray-100 dark:bg-neutral-800"} text-black dark:text-white rounded-full`}
+            className={`relative flex items-center gap-2 px-4 py-1 text-sm cursor-pointer ${activeId === id && "bg-gray-100 dark:bg-neutral-800"} text-black dark:text-white rounded-full cursor-pointer group relative transition-all duration-500 ease-in-out `}
           >
             {/* Hover BG */}
             {hovered === idx && (
@@ -140,8 +139,16 @@ export const NavItems = ({ items, className }: NavItemsProps) => {
                 <span className="relative inline-flex h-full w-full rounded-full bg-[#b5ff6d]" />
               </span>
             )}
-
-            <span className="relative z-20">{item.name}</span>
+            <div className="relative flex items-center justify-center gap-2">
+              <span className="relative inline-block overflow-hidden">
+                <span className="block transition-transform duration-500 group-hover:-translate-y-full">
+                  <span className="relative z-20">{item.name}</span>
+                </span>
+                <span className="absolute inset-0 transition-transform duration-500 translate-y-full group-hover:translate-y-0">
+                  <span className="relative z-20">{item.name}</span>
+                </span>
+              </span>
+            </div>
           </button>
         );
       })}

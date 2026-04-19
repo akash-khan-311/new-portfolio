@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Button from "../ui/Button";
 
 const socials: { label: string; href: string }[] = [
   { label: "LINKEDIN", href: "#" },
@@ -94,12 +95,15 @@ export default function HeroSection() {
               </Link>
             ))}
           </nav>
-          <a
+          <Button className="" href="#contact">
+            Know Me better
+          </Button>
+          {/* <a
             href="#"
             className="inline-block px-8 py-3 border border-white rounded-full text-white text-sm font-semibold tracking-wide hover:bg-white hover:text-[#111111] transition-all duration-200 whitespace-nowrap"
           >
             Know me better
-          </a>
+          </a> */}
         </div>
       </div>
     </div>
