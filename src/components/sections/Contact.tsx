@@ -164,7 +164,7 @@ const ContactSection: React.FC = () => {
   };
 
   return (
-    <section className="container mx-auto px-3 md:px-0 lg:pb-36 md:pb-24 pb-20">
+    <div className="container mx-auto px-3 md:px-0 lg:pb-36 md:pb-24 pb-20">
       <div className="flex flex-col lg:flex-row justify-center ">
         <div className="">
           <SectionMiniTitle
@@ -308,7 +308,7 @@ const ContactSection: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

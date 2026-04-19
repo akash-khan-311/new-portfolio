@@ -18,19 +18,27 @@ const items = [
 export default function Home() {
   return (
     <>
-      <div className="container mx-auto md:px-0 px-3 relative">
+      <section id="home" className="">
         <HeroSection />
-      </div>
-      <div className="mt-24">
-        <CurvedLoop
-          items={items}
-          className="text-[#cbd5e1] dark:text-[#3a3a3a] text-3xl md:text-4xl lg:text-5xl capitalize font-bold  "
-        />
-      </div>
-      <AboutSection />
-      <Experience />
-      <Projects />
-      <ContactSection />
+        <div className="mt-24">
+          <CurvedLoop
+            items={items}
+            className="text-[#cbd5e1] dark:text-[#3a3a3a] text-3xl md:text-4xl lg:text-5xl capitalize font-bold  "
+          />
+        </div>
+      </section>
+      <section id="about">
+        <AboutSection />
+      </section>
+      <section id="experience">
+        <Experience />
+      </section>
+      <section id="projects">
+        <Projects />
+      </section>
+      <section id="contact">
+        <ContactSection />
+      </section>
     </>
   );
 }

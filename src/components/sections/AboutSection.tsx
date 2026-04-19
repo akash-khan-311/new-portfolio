@@ -31,7 +31,7 @@ const items = [
 export default function AboutSection() {
   return (
     <>
-      <section className="my-36">
+      <div className="my-36">
         <div className="container mx-auto md:px-0 px-3">
           <>
             <SectionMiniTitle
@@ -117,7 +117,7 @@ export default function AboutSection() {
             className="rounded-full py-3 px-8 dark:bg-[#141419] bg-white text-sm mx-2 font-satoshi"
           />
         </div>
-      </section>
+      </div>
     </>
   );
 }

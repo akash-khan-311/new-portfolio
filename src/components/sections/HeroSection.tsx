@@ -8,7 +8,7 @@ const socials: { label: string; href: string }[] = [
 ];
 export default function HeroSection() {
   return (
-    <section className="lg:pt-48 md:pt-32 pt-20  flex flex-col justify-between  font-sans antialiased">
+    <div className="lg:pt-48 md:pt-32 pt-20 container mx-auto md:px-0 px-3 relative flex flex-col justify-between  font-sans antialiased ">
       <div className="flex flex-1 flex-col justify-center">
         {/* Top: Greeting */}
         <div
@@ -102,6 +102,6 @@ export default function HeroSection() {
           </a>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

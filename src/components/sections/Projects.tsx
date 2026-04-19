@@ -6,7 +6,7 @@ import ProjectCard from "../ui/ProjectCard";
 
 export default function Projects() {
   return (
-    <section className="container mx-auto px-3 md:px-0 lg:pb-36 md:pb-24 pb-20">
+    <div className="container mx-auto px-3 md:px-0 lg:pb-36 md:pb-24 pb-20">
       <div className="flex flex-col lg:flex-row justify-center ">
         <div className="w-full lg:w-1/2">
           <div className="max-w-xl text-center lg:text-left sticky top-10">
@@ -59,6 +59,6 @@ export default function Projects() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

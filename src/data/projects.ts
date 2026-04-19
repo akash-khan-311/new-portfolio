@@ -60,4 +60,15 @@ export const projects = [
     liveLink: "https://softui-react.vercel.app/",
     technologies: ["TailwindCSS", "React.js", "Next.js"],
   },
+  {
+  _id: "techorbit-it-project",
+  title: "TECHORBIT IT",
+  description:
+    "A modern company website built using Next.js and Framer Motion, featuring smooth animations, responsive design, and optimized performance. Integrated backend with MongoDB and Mongoose to manage dynamic data and ensure scalability.",
+  image:
+    "https://your-image-link.com/techorbit-preview.png", // 👉 নিজের screenshot/link বসাও
+  codeLink: "https://github.com/akash-khan-311/techorbit-it", // 👉 যদি private হয়, empty রাখো বা remove করো
+  liveLink: "https://techorbitit.com/", // 👉 actual live link দাও
+  technologies: ["Next.js", "Framer Motion", "MongoDB", "Mongoose", "TailwindCSS", "React.js"],
+}
 ];
