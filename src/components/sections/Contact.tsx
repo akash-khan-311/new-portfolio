@@ -131,11 +131,6 @@ const MailInputIcon = () => (
   </svg>
 );
 
-const SparkIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="#87e63b">
-    <path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6L12 17.2l-6.2 4.5 2.4-7.6L2 9.6h7.6z" />
-  </svg>
-);
 
 const socialLinks = [
   { icon: <LinkedInIcon />, href: "#", label: "LinkedIn" },
