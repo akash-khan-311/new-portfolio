@@ -6,7 +6,7 @@ import {
   NavbarLogo,
 } from "@/components/ui/resizable-navbar";
 
-import AppThemeSwitch from "./ui/ThemeSwitch";
+import AppThemeSwitch from "@/components/ui/ThemeSwitch";
 
 type NavItems = {
   name: string;

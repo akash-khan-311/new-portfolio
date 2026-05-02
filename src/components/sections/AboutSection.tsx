@@ -1,11 +1,11 @@
-import SectionMiniTitle from "../SectionMiniTitle";
-import BlurText from "../BlurText";
+import SectionMiniTitle from "@/components/SectionMiniTitle";
+import BlurText from "@/components/BlurText";
 import Image from "next/image";
 import Link from "next/link";
-import CircularText from "../CircularText";
+import CircularText from "@/components/CircularText";
 import { ArrowUpRight } from "lucide-react";
-import Button from "../ui/Button";
-import CurvedLoop from "../CurvedLoop";
+import Button from "@/components/ui/Button";
+import CurvedLoop from "@/components/CurvedLoop";
 
 const items = [
   { label: "HTML", image: "/images/html.png" },

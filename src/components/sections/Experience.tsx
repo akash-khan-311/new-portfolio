@@ -1,8 +1,8 @@
 import React from "react";
-import SectionMiniTitle from "../SectionMiniTitle";
+import SectionMiniTitle from "@/components/SectionMiniTitle";
 
-import AccordionSection from "../ui/Accordion";
-import SectionTitle from "../SectionTitle";
+import AccordionSection from "@/components/ui/Accordion";
+import SectionTitle from "@/components/SectionTitle";
 
 const experienceData = [
   {

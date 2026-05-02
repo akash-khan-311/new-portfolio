@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Button from "../ui/Button";
+import Button from "@/components/ui/Button";
 
 const socials: { label: string; href: string }[] = [
   { label: "LINKEDIN", href: "#" },

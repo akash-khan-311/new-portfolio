@@ -1,8 +1,8 @@
 import React from "react";
-import SectionTitle from "../SectionTitle";
-import SectionMiniTitle from "../SectionMiniTitle";
+import SectionTitle from "@/components/SectionTitle";
+import SectionMiniTitle from "@/components/SectionMiniTitle";
 import { projects } from "@/data/projects";
-import ProjectCard from "../ui/ProjectCard";
+import ProjectCard from "@/components/ui/ProjectCard";
 
 export default function Projects() {
   return (

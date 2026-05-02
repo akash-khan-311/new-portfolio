@@ -7,8 +7,8 @@ import {
 } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import Link from "next/link";
-import SectionTitle from "../SectionTitle";
-import Button from "../ui/Button";
+import SectionTitle from "@/components/SectionTitle";
+import Button from "@/components/ui/Button";
 
 const socialLinks = [
   { icon: FaGithub, href: "https://github.com", label: "GitHub" },

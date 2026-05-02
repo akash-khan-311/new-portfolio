@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import SectionMiniTitle from "../SectionMiniTitle";
-import SectionTitle from "../SectionTitle";
+import SectionMiniTitle from "@/components/SectionMiniTitle";
+import SectionTitle from "@/components/SectionTitle";
 import Image from "next/image";
 
 // Social Icons as inline SVGs
