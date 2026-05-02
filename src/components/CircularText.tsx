@@ -36,12 +36,12 @@ const getTransition = (duration: number, from: number) => ({
   },
 });
 
-const CircularText: React.FC<CircularTextProps> = ({
+const CircularText = ({
   text,
   spinDuration = 20,
   onHover = "speedUp",
   className = "",
-}) => {
+}: CircularTextProps) => {
   const letters = Array.from(text);
   const controls = useAnimation();
   const rotation: MotionValue<number> = useMotionValue(0);
