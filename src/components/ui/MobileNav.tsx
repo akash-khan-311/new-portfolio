@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
+import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 type NavItems = {
   name: string;
@@ -11,6 +12,9 @@ type Props = {
   navItems: NavItems[];
 };
 export default function MobileNav({ navItems }: Props) {
+   const pathname = usePathname();
+    const isAdmin = pathname.startsWith("/admin");
+    const isLogin = pathname.startsWith("/login");
   const sectionIds = useMemo(
     () => navItems.map((link) => link.link.replace("#", "")),
     [navItems],
@@ -26,7 +30,7 @@ export default function MobileNav({ navItems }: Props) {
     }
   };
   return (
-    <nav className="flex-center fixed right-0 bottom-0 left-0 z-90 w-full sm:hidden">
+    <nav className={`${(isAdmin || isLogin) && "hidden "} flex-center fixed right-0 bottom-0 left-0 z-90 w-full sm:hidden`}>
       <ul className="border-bg-700 bg-backdrop text-text-secondary flex w-full justify-evenly rounded-t-3xl border-t shadow backdrop-blur-md">
         {navItems.map((item, idx) => {
           const Icon = item.icon;

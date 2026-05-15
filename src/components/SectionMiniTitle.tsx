@@ -106,7 +106,7 @@ const SectionMiniTitle: React.FC<Props> = ({
   // Transform: p=0 -> 150% (shine off right), p=100 -> -50% (shine off left)
   const backgroundPosition = useTransform(
     progress,
-    (p) => `${150 - p * 2}% center`
+    (p) => `${150 - p * 2}% center`,
   );
 
   const handleMouseEnter = useCallback(() => {
@@ -133,12 +133,12 @@ const SectionMiniTitle: React.FC<Props> = ({
       data-aos-easing="ease-in-out-sine"
       data-aos-delay="0"
       data-aos-once="true"
-      className={`flex items-center gap-x-2 uppercase ${className}`}
+      className={`flex gradient-text items-center gap-x-2 uppercase ${className}`}
       style={{ ...gradientStyle, backgroundPosition }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <span >
+      <span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="18"
@@ -149,7 +149,7 @@ const SectionMiniTitle: React.FC<Props> = ({
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="text-primary"
+          className="text-primary "
           aria-hidden="true"
         >
           <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>

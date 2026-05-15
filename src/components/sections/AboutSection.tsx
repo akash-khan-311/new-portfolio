@@ -1,11 +1,14 @@
+"use client";
 import SectionMiniTitle from "@/components/SectionMiniTitle";
 import BlurText from "@/components/BlurText";
 import Image from "next/image";
 import Link from "next/link";
 import CircularText from "@/components/CircularText";
 import { ArrowUpRight } from "lucide-react";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/CustomButton";
 import CurvedLoop from "@/components/CurvedLoop";
+import { useFetcher } from "@/hooks/useHero";
+import { highlightWord } from "@/helpers/highlightWord";
 
 const items = [
   { label: "HTML", image: "/images/html.png" },
@@ -28,6 +31,9 @@ const items = [
 ];
 
 export default function AboutSection() {
+  const { data } = useFetcher("about");
+  const { heading, title, image } = data || {};
+
   return (
     <>
       <div className="my-36">
@@ -56,7 +62,10 @@ export default function AboutSection() {
             data-aos-once="true"
           >
             <BlurText
-              text="I'm Md Akash Ali, a passionate MERN Stack Developer who helps businesses build fast, responsive, and user-friendly web applications. I work with React, Next.js, Node.js, and MongoDB to deliver clean, optimized, and production-ready solutions tailored to client needs."
+              text={
+                heading ||
+                "I'm Md Akash Ali, a passionate MERN Stack Developer who helps businesses build fast, responsive, and user-friendly web applications. I work with React, Next.js, Node.js, and MongoDB to deliver clean, optimized, and production-ready solutions tailored to client needs."
+              }
               delay={220}
               animateBy="words"
               direction="top"
@@ -70,7 +79,7 @@ export default function AboutSection() {
               <div className="h-full  overflow-hidden rounded-b-full ">
                 <Image
                   alt="Akash Ali"
-                  src={"/images/about.png"}
+                  src={image || "/images/about.png"}
                   width={400}
                   height={600}
                   className="aspect-3/4 h-full w-full object-cover transition duration-300 hover:scale-[1.015]"
@@ -92,11 +101,11 @@ export default function AboutSection() {
               </div>
             </div>
             {/* title and descriptions*/}
-            <div className="">
-              <h2 className="dark:text-white text-5xl md:text-6xl lg:text-7xl font-semibold lg:leading-20 md:leading-18 leading-14 font-clash">
-                A Creative <br className="hidden sm:block" />{" "}
-                <span className="text-[#87e63b]">MERN Developer</span> & UI
-                Experience Builder
+            <div className="lg:w-3/4">
+              <h2 className="lg:w-3/4 dark:text-white text-5xl md:text-6xl lg:text-7xl font-semibold lg:leading-20 md:leading-18 leading-14 font-clash">
+                {title
+                  ? highlightWord(title, "MERN Developer", "gradient-text")
+                  : "Passionate MERN Stack Developer"}
               </h2>
               <p className="text-balance py-10">
                 I build fast, scalable, and user-focused web applications using

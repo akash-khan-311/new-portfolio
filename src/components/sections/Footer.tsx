@@ -1,3 +1,4 @@
+"use client";
 import {
   FaGithub,
   FaTwitter,
@@ -8,7 +9,8 @@ import {
 import { IoMdMail } from "react-icons/io";
 import Link from "next/link";
 import SectionTitle from "@/components/SectionTitle";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/CustomButton";
+import { usePathname } from "next/navigation";
 
 const socialLinks = [
   { icon: FaGithub, href: "https://github.com", label: "GitHub" },
@@ -26,8 +28,11 @@ const socialLinks = [
 const fullYear = new Date().getFullYear();
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isAdmin = pathname.startsWith("/admin");
+  const isLogin = pathname.startsWith("/login");
   return (
-    <footer className="w-full ">
+    <footer className={`${(isAdmin || isLogin) && "hidden "} relative w-full `}>
       <div className="container mx-auto px-3 md:px-0  ">
         <div className="dark:bg-[#111116] bg-white py-20 rounded-2xl">
           <div className="flex flex-col items-center max-w-lg mx-auto ">

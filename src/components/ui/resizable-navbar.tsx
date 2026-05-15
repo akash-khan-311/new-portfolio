@@ -67,7 +67,6 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         boxShadow: visible ? "0 0 24px rgba(0,0,0,0.1)" : "none",
         width: visible ? "40%" : "100%",
         y: visible ? 20 : 0,
-        border: visible ? "1px solid #b5ff6d" : "none",
       }}
       transition={{
         type: "spring",
@@ -76,7 +75,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       }}
       className={cn(
         "relative z-50 mx-auto hidden w-full container items-center justify-between rounded-full px-4 py-2 lg:flex",
-        visible && "bg-white/80 dark:bg-neutral-950/80",
+        visible && "bg-white/80 dark:bg-neutral-950/80 gradient-border",
         className,
       )}
     >
@@ -163,10 +162,10 @@ export const NavItems = ({ items, className }: NavItemsProps) => {
 export const NavbarLogo = () => {
   return (
     <Link
-      href="#"
-      className="relative z-20 mr-4 flex items-center px-2 py-1 font-bold"
+      href="#home"
+      className="relative z-20 mr-4 flex items-center px-2 py-1 font-extrabold"
     >
-      <span className="text-xl uppercase text-black dark:text-primary">
+      <span className="text-2xl uppercase text-black dark:text-primary tracking-[0.5em] gradient-text">
         Akash
       </span>
     </Link>

@@ -13,10 +13,14 @@ const items = [
   { label: "Mentoring ✦︎", image: "" },
   { label: "Shopify Development ✦︎", image: "" },
 ];
-export default function Home() {
+
+export default async function Home() {
+
+
+
   return (
     <>
-      <section id="home" className="">
+      <section id="home" className="relative">
         <HeroSection />
         <div className="mt-24">
           <CurvedLoop
