@@ -3,7 +3,7 @@ import Button from "@/components/ui/CustomButton";
 import Badge from "../ui/Badge";
 import { motion } from "framer-motion";
 
-import { useFetcher } from "@/hooks/useHero";
+import { useFetcher } from "@/hooks/useFetcher";
 import Social from "../ui/Social";
 import HeroSkeleton from "../ui/Skeleton/HeroSkeleton";
 

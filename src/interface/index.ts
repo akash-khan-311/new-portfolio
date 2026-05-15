@@ -1,8 +1,13 @@
-export type TSkill = {
+export interface TSkill {
+  _id?: string;
   name: string;
-  icon?: string | FileList;
+  category: string;
+  proficiency: number;
+  icon?: string;
   iconPublicId?: string;
-};
+  createdAt?: string;
+  updatedAt?: string;
+}
 
 export type TAbout = {
   heading: string;
@@ -12,15 +17,19 @@ export type TAbout = {
   imagePublicId: string;
 };
 
-export interface IExperience {
+export type TExperience = {
   position: string;
   company: string;
   location: string;
   startDate: string;
   endDate: string;
   description: string;
-  current: boolean;
-}
+  _id?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  image?: string;
+  type: "Remote" | "On-site" | "Hybrid";
+};
 
 export type TProject = {
   title: string;

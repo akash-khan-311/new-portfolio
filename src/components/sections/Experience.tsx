@@ -34,14 +34,6 @@ const experienceData = [
   },
 ];
 
-interface ExperienceItem {
-  _id: string;
-  role: string;
-  company: string;
-  duration: string;
-  description: string;
-}
-
 export default function Experience() {
   return (
     <div className="container mx-auto px-3 md:px-0 lg:pb-36 md:pb-24 pb-20">

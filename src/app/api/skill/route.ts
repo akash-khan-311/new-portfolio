@@ -1,54 +1,66 @@
 import { connectDB } from "@/lib/mongodb";
 import Skills from "@/model/Skills";
+import { NextResponse } from "next/server";
 
-import { NextRequest, NextResponse } from "next/server";
-
+// GET ALL SKILLS
 export async function GET() {
-  await connectDB();
-  const data = await Skills.find({}).lean();
-  return NextResponse.json({
-    success: true,
-    message: "Skills Data Fetched",
-    data,
-  });
-}
-
-export async function POST(req: NextRequest) {
   try {
     await connectDB();
-    const body = await req.json();
-    const { name, icon } = body;
-    if (!name || !icon) {
-      return NextResponse.json({
-        success: false,
-        message: "All fields are required",
-        status: 400,
-      });
-    }
 
-    const existingExperience = await Skills.findOne({ name });
-    if (existingExperience) {
-      return NextResponse.json({
-        success: false,
-        status: 400,
-        message: "This Skill Already Added.",
-      });
-    }
-    const result = await Skills.create({
-      name,
-      icon,
-    });
+    const data = await Skills.find({}).sort({ createdAt: -1 });
 
     return NextResponse.json({
       success: true,
-      status: 200,
-      message: "Skill Created Successfully",
-      data: result,
+      message: "Skills fetched successfully",
+      data,
     });
   } catch (error) {
-    console.error("Experience Create failed:", error);
     return NextResponse.json(
-      { error: "Something went wrong!" },
+      {
+        success: false,
+        message: "Failed to fetch skills",
+        error,
+      },
+      { status: 500 },
+    );
+  }
+}
+
+// CREATE SKILL
+export async function POST(req: Request) {
+  try {
+    await connectDB();
+
+    const body = await req.json();
+    const existingSkill = await Skills.findOne({
+      name: body.name,
+    });
+    if (existingSkill) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Skill already exists",
+        },
+        { status: 400 },
+      );
+    }
+    const skill = await Skills.create(body);
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Skill created successfully",
+        skill,
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to create skill",
+        error,
+      },
       { status: 500 },
     );
   }

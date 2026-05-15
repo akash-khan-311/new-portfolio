@@ -1,4 +1,4 @@
-import { TAbout, THero } from "@/interface";
+import { TAbout, THero, TSkill } from "@/interface";
 
 // Hero API
 export const getHeroData = async () => {
@@ -140,5 +140,99 @@ export const updateSocialLinks = async (
       message: message,
       data: null,
     };
+  }
+};
+
+// Skills API
+
+export const createSkill = async (payload: TSkill) => {
+  try {
+    const res = await fetch("/api/skill", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+
+    return {
+      success: false,
+      message: "Failed to create skill",
+    };
+  }
+};
+export const getAllSkills = async () => {
+  try {
+    const res = await fetch(`/api/skill`);
+    if (!res.ok) {
+      throw new Error("Failed to fetch skills");
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching skills:", error);
+    throw new Error("Failed to fetch skills");
+  }
+};
+
+export const updateSkill = async (id: string, payload: TSkill) => {
+  try {
+    const res = await fetch(`/api/skill/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      throw new Error("Failed to update skill");
+    }
+    const data = await res.json();
+    return {
+      success: true,
+      message: "Skill updated successfully",
+      data: data,
+    };
+  } catch (error) {
+    console.error("Error updating skill:", error);
+
+    const message =
+      error instanceof Error
+        ? error.message
+        : String(error) || "Something went wrong";
+    return {
+      success: false,
+      message: message,
+      data: null,
+    };
+  }
+};
+
+export const deleteSkill = async (id: string) => {
+  try {
+    const res = await fetch(`/api/skill/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Failed to delete skill");
+    }
+    const data = await res.json();
+    return {
+      success: true,
+      message: "Skill deleted successfully",
+      data: data,
+    };
+  } catch (error) {
+    console.error("Error deleting skill:", error);
+    throw new Error("Failed to delete skill");
   }
 };

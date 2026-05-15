@@ -1,4 +1,4 @@
-import { useFetcher } from "@/hooks/useHero";
+import { useFetcher } from "@/hooks/useFetcher";
 
 import Link from "next/link";
 import React from "react";

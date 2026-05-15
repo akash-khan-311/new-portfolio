@@ -7,32 +7,14 @@ import CircularText from "@/components/CircularText";
 import { ArrowUpRight } from "lucide-react";
 import Button from "@/components/ui/CustomButton";
 import CurvedLoop from "@/components/CurvedLoop";
-import { useFetcher } from "@/hooks/useHero";
+import { useFetcher } from "@/hooks/useFetcher";
 import { highlightWord } from "@/helpers/highlightWord";
-
-const items = [
-  { label: "HTML", image: "/images/html.png" },
-  { label: "CSS", image: "/images/css.png" },
-  { label: "Bootstrap", image: "/images/boostrap.png" },
-  { label: "Taiwlind CSS", image: "/images/tailwind.png" },
-  { label: "JavaScript", image: "/images/javascript.png" },
-  { label: "TypeScript", image: "/images/typescript.png" },
-  { label: "React.js", image: "/images/react.png" },
-  { label: "Next.js", image: "/images/nextjs.png" },
-  { label: "Node.js", image: "/images/nodejs.png" },
-  { label: "Express.js", image: "/images/express.png" },
-  { label: "MongoDB", image: "/images/mongodb.png" },
-  { label: "Mongoose", image: "/images/mongoose.png" },
-  { label: "Framer Motion", image: "/images/motion.png" },
-  { label: "GSAP", image: "/images/gsap.png" },
-  { label: "Shopify", image: "/images/shopify.png" },
-  { label: "Git", image: "/images/git.png" },
-  { label: "Firebase", image: "/images/firebase.png" },
-];
-
 export default function AboutSection() {
   const { data } = useFetcher("about");
+  const {data: skills } = useFetcher("skill");
   const { heading, title, image } = data || {};
+
+  console.log(skills, "skills in about section");
 
   return (
     <>
@@ -121,7 +103,7 @@ export default function AboutSection() {
         </div>
         <div className="my-20 ">
           <CurvedLoop
-            items={items}
+            items={skills}
             className="rounded-full py-3 px-8 dark:bg-[#141419] bg-white text-sm mx-2 font-satoshi"
           />
         </div>

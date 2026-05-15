@@ -18,7 +18,6 @@ const SkillSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    color: { type: String, default: "#7C3AED" },
   },
   { timestamps: true },
 );

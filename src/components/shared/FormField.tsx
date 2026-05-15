@@ -19,6 +19,7 @@ type FormFieldProps = {
   readOnly?: boolean;
   label: string;
   name: string;
+  disabled?: boolean;
   errorMessage?: string;
   register: UseFormRegister<any>;
   errors?: FieldErrors;
@@ -49,6 +50,7 @@ const FormField: React.FC<FormFieldProps> = ({
   label,
   errorMessage,
   name,
+  disabled,
   register,
   errors,
   type = "text",
@@ -124,8 +126,9 @@ const FormField: React.FC<FormFieldProps> = ({
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
+                      disabled={disabled}
                       variant="outline"
-                      className="w-full justify-between"
+                      className="w-full py-5 bg-gray-200 dark:bg-slate-900  justify-between"
                     >
                       {selectedDate
                         ? selectedDate.toLocaleDateString()
@@ -152,13 +155,16 @@ const FormField: React.FC<FormFieldProps> = ({
           <Controller
             name={name}
             control={control}
-            rules={{ required: required ? errorMessage : false }}
+            rules={{
+              required: required ? errorMessage : false,
+            }}
             render={({ field }) => (
               <ComboBox
+                value={field.value}
                 options={options || []}
                 placeholder={placeholder}
+                className={className}
                 onSelect={(value) => field.onChange(value)}
-                className="dark:bg-dark"
               />
             )}
           />

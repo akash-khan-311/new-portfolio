@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 type items = {
-  label: string;
-  image?: string;
+  name: string;
+  icon?: string;
 };
 type Props = {
   items: items[];
@@ -38,15 +38,15 @@ const CurvedLoop = ({ items = [], className }: Props) => {
             key={index}
             className={`${className} flex items-center gap-4 px-2   tracking-widest whitespace-nowrap select-none`}
           >
-            {item.image && (
+            {item.name && (
               <Image
-                src={item?.image}
-                alt={item.label}
+                src={item?.icon as string}
+                alt={item.name}
                 width={20}
                 height={20}
               />
             )}
-            {item.label}
+            {item.name}
           </span>
         ))}
       </div>
