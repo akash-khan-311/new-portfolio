@@ -3,19 +3,20 @@ import { useState } from "react";
 
 // Icons
 import { MdLogout } from "react-icons/md";
-
+import { MdSpaceDashboard } from "react-icons/md";
+import { IoShareSocialSharp } from "react-icons/io5";
+import { GrUserExpert } from "react-icons/gr";
 import { AiOutlineBars } from "react-icons/ai";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaFilePdf } from "react-icons/fa";
 import { FcAbout } from "react-icons/fc";
 import { GiSkills } from "react-icons/gi";
 import { MdContactMail } from "react-icons/md";
 import { PiMonitorFill } from "react-icons/pi";
-import { FaCode } from "react-icons/fa";
-import Link from "next/link";
 import MenuItem from "./MenuItems";
 import { logout } from "@/lib/Auth/logout";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { NavbarLogo } from "../ui/resizable-navbar";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
@@ -23,7 +24,6 @@ const Sidebar = () => {
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
-    console.log(isActive);
   };
   const handleLogout = async () => {
     try {
@@ -61,14 +61,21 @@ const Sidebar = () => {
   lg:translate-x-0`}
       >
         <div className="flex flex-col items-center justify-center mb-4">
-          <Link
+          {/* <Link
             href="/"
             className="text-[#16f2b3] text-xl md:text-2xl lg:text-3xl font-bold uppercase"
           >
             akash <span className="text-pink-600">khan</span>
-          </Link>
+          </Link> */}
+          <div className="border-b w-full flex justify-center items-center shadow-2xl ">
+            <NavbarLogo />
+          </div>
           <div className="flex flex-col flex-1 justify-center space-y-2 mt-10">
-            <MenuItem icon={FaHome} label={"Statistics"} path={"/admin"} />
+            <MenuItem
+              icon={MdSpaceDashboard}
+              label={"Statistics"}
+              path={"/admin"}
+            />
             <MenuItem
               icon={FaHome}
               label={"Hero Section"}
@@ -80,12 +87,12 @@ const Sidebar = () => {
               path={"/admin/about"}
             />
             <MenuItem
-              icon={FcAbout}
+              icon={IoShareSocialSharp}
               label={"Social Links"}
               path={"/admin/social"}
             />
             <MenuItem
-              icon={FaCode}
+              icon={GrUserExpert}
               label={"Experience Section"}
               path={"/admin/experience"}
             />
@@ -105,7 +112,7 @@ const Sidebar = () => {
               path={"/admin/info"}
             />
             <MenuItem
-              icon={MdContactMail}
+              icon={FaFilePdf}
               label={"My Resume"}
               path={"/admin/resume"}
             />

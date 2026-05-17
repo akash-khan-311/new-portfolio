@@ -5,7 +5,7 @@ import { seedAdmin } from "./SeedAdmin";
 const MONGODB_URI = process.env.MONGODB_URI!;
 
 if (!MONGODB_URI) {
-  throw new Error("Please define MONGODB_URI in .env.local");
+  throw new Error("MONGODB_URI is missing");
 }
 
 let cached = (global as any).mongoose;

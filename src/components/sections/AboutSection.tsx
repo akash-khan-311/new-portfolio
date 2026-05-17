@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import CircularText from "@/components/CircularText";
 import { ArrowUpRight } from "lucide-react";
-import Button from "@/components/ui/CustomButton";
 import CurvedLoop from "@/components/CurvedLoop";
 import { useFetcher } from "@/hooks/useFetcher";
 import { highlightWord } from "@/helpers/highlightWord";

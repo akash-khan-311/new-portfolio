@@ -1,32 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import {
-  FaGithub,
-  FaTwitter,
-  FaLinkedin,
-  FaInstagram,
-  FaYoutube,
-} from "react-icons/fa";
-import { IoMdMail } from "react-icons/io";
 import Link from "next/link";
 import SectionTitle from "@/components/SectionTitle";
-import Button from "@/components/ui/CustomButton";
+
 import { usePathname } from "next/navigation";
 import Social from "../ui/Social";
 import { useFetcher } from "@/hooks/useFetcher";
 import { TSocial } from "@/interface";
-
-const socialLinks = [
-  { icon: FaGithub, href: "https://github.com", label: "GitHub" },
-  { icon: FaTwitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: FaLinkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: FaInstagram, href: "https://instagram.com", label: "Instagram" },
-  { icon: FaYoutube, href: "https://youtube.com", label: "YouTube" },
-  {
-    icon: IoMdMail,
-    href: "mailto:mdakashkhanbdinto@gmail.com",
-    label: "Email",
-  },
-];
 
 const fullYear = new Date().getFullYear();
 

@@ -206,9 +206,7 @@ Use your configured admin credentials to login.
 This project can be deployed on:
 
 - Vercel
-- Netlify (frontend)
-- Railway
-- Render
+  
 
 Recommended: **Vercel**
 
