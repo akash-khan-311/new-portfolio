@@ -6,6 +6,7 @@ import ThemeGuard from "./Provider/ThemeGuard";
 import ClientWraper from "./Wraper/ClientWrapper";
 
 import localFont from "next/font/local";
+import LenisProvider from "./Provider/LenisProvider";
 
 const clashDisplay = localFont({
   src: [
@@ -44,7 +45,9 @@ export default function RootLayout({
     >
       <body className="relative">
         <ThemeGuard />
-        <ClientWraper>{children}</ClientWraper>
+        <LenisProvider>
+          <ClientWraper>{children}</ClientWraper>
+        </LenisProvider>
       </body>
     </html>
   );

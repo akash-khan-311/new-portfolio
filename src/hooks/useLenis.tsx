@@ -7,19 +7,21 @@ const useLenis = () => {
   useEffect(() => {
     const lenis = new Lenis({
       duration: 0.7,
-      easing: (t) => t * (2 - t),
       smoothWheel: true,
-      wheelMultiplier: 0.9,
+      wheelMultiplier: 1,
     });
 
-    const animate = (time: number) => {
-      lenis.raf(time);
-      requestAnimationFrame(animate);
-    };
+    let frameId: number;
 
-    requestAnimationFrame(animate);
+    function raf(time: number) {
+      lenis.raf(time);
+      frameId = requestAnimationFrame(raf);
+    }
+
+    frameId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(frameId);
       lenis.destroy();
     };
   }, []);

@@ -64,7 +64,7 @@ This platform includes:
 
 ## Frontend
 
-- Next.js 15
+- Next.js 16.2.3
 - React
 - TypeScript
 - Tailwind CSS

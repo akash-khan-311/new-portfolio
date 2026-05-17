@@ -1,6 +1,5 @@
 "use client";
 
-import useLenis from "@/hooks/useLenis";
 import AOSWrapper from "./AOSWrapper";
 import MainNavbar from "@/components/Navbar";
 import Footer from "@/components/sections/Footer";
@@ -10,7 +9,6 @@ import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "next-themes";
 
 const ClientWraper = ({ children }: { children: React.ReactNode }) => {
-  useLenis();
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <AOSWrapper>
