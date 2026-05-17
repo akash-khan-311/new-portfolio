@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useFetcher } from "@/hooks/useFetcher";
 
 import Link from "next/link";

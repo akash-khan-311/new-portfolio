@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import FormField from "@/components/shared/FormField";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { THero } from "@/interface";
 import { refreshHero } from "@/lib/swr";
 import { getHeroData, updateHeroData } from "@/lib";

@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
 import FormField from "@/components/shared/FormField";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 import { useFetcher } from "@/hooks/useFetcher";
 

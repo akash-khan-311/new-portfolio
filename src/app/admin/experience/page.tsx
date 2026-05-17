@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import FormField from "@/components/shared/FormField";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import SingleImageUploadField from "@/helpers/SingleImageUpload";

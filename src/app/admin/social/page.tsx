@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Plus, Trash2, Save } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { getSocialLinks, updateSocialLinks } from "@/lib";
 import { refreshSocial } from "@/lib/swr";
 import toast from "react-hot-toast";

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import FormField from "@/components/shared/FormField";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import SingleImageUploadField from "@/helpers/SingleImageUpload";
 import { useFetcher } from "@/hooks/useFetcher";
 import { TProject } from "@/interface";
