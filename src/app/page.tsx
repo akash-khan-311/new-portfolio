@@ -5,19 +5,16 @@ import Experience from "@/components/sections/Experience";
 import HeroSection from "@/components/sections/HeroSection";
 import Projects from "@/components/sections/Projects";
 const items = [
-  { label: "Web Development ✦︎", image: "" },
-  { label: "Software Engineer ✦︎", image: "" },
-  { label: "Web Design ✦︎", image: "" },
-  { label: "Website Maintance ✦", image: "" },
-  { label: "Leadership ✦︎", image: "" },
-  { label: "Mentoring ✦︎", image: "" },
-  { label: "Shopify Development ✦︎", image: "" },
+  { name: "Web Development ✦︎", icon: "" },
+  { name: "Software Engineer ✦︎", icon: "" },
+  { name: "Web Design ✦︎", icon: "" },
+  { name: "Website Maintance ✦", icon: "" },
+  { name: "Leadership ✦︎", icon: "" },
+  { name: "Mentoring ✦︎", icon: "" },
+  { name: "Shopify Development ✦︎", icon: "" },
 ];
 
 export default async function Home() {
-
-
-
   return (
     <>
       <section id="home" className="relative">

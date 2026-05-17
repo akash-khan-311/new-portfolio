@@ -111,7 +111,7 @@ const ContactSection: React.FC = () => {
               <div>
                 <button
                   onClick={handleSubmit}
-                  className="px-8 py-3 bg-white dark:bg-white text-[#111111] font-semibold text-sm rounded-full hover:bg-[#87e63b] transition-colors duration-200 whitespace-nowrap"
+                  className="px-8 py-3 gradient-border cursor-pointer font-semibold text-sm rounded-full whitespace-nowrap"
                 >
                   Submit
                 </button>

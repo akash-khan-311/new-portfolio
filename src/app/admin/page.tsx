@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { Eye, User, Code, Briefcase, FolderGit, Mail } from "lucide-react";
+import PageTitle from "./_components/PageTitle";
 
 const stats = [
   {
@@ -44,27 +45,19 @@ const stats = [
 export default function AdminDashboard() {
   return (
     <div>
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className=" border-b"
-      >
-        <h1 className="text-4xl font-bold gradient-text mb-2">Dashboard</h1>
-        <p className="text-gray-400 mb-8">
-          Welcome back! Here&apos;s what&apos;s happening with your portfolio.
-        </p>
-      </motion.div>
-
+      <PageTitle
+        title="Admin Dashboard"
+        description="Welcome back! Here's what's happening with your portfolio."
+      />
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {stats.map((stat, i) => (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+        {stats.map((stat) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
             whileHover={{ y: -5 }}
-            className="glass p-6 cursor-pointer"
+            className="glass p-6 cursor-pointer border rounded-2xl"
           >
             <div className="flex items-center justify-between mb-4">
               <div
@@ -83,7 +76,9 @@ export default function AdminDashboard() {
       {/* Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="glass p-6">
-          <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
+          <h2 className="text-xl font-bold my-4 pb-4 border-b">
+            Recent Activity
+          </h2>
           <ul className="space-y-3">
             {[
               "Updated Hero section",
@@ -103,7 +98,9 @@ export default function AdminDashboard() {
         </div>
 
         <div className="glass p-6">
-          <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
+          <h2 className="text-xl font-bold my-4 pb-4 border-b">
+            Quick Actions
+          </h2>
           <div className="grid grid-cols-2 gap-3">
             {["Add Project", "Add Skill", "Update Hero", "View Site"].map(
               (action) => (

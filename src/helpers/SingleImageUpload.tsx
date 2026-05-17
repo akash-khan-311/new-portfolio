@@ -52,7 +52,7 @@ export default function SingleImageUploadField({
   return (
     <div className="mb-6">
       <div
-        className="border-2 border-dashed border-gray-500 rounded-lg p-6 text-center cursor-pointer"
+        className="border-2 border-dashed border-gray-500 bg- rounded-lg p-6 text-center cursor-pointer"
         onClick={() => fileInputRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {

@@ -14,6 +14,7 @@ import {
 import { ChevronDownIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/Button";
+import TagInput from "./TagInput";
 
 type FormFieldProps = {
   readOnly?: boolean;
@@ -28,6 +29,7 @@ type FormFieldProps = {
   type?:
     | "text"
     | "email"
+    | "tag"
     | "number"
     | "date"
     | "file"
@@ -76,7 +78,7 @@ const FormField: React.FC<FormFieldProps> = ({
               {...register(`${name}.${index}.value`, {
                 required: required ? errorMessage : false,
               })}
-              className={`flex-1 px-4 py-2 border text-white border-gray-3 rounded-lg focus:ring-1 focus:ring-pink focus:border-pink outline-none transition-all ${className}`}
+              className={`flex-1 px-4 py-2 border text-white border-gray-3  rounded-lg focus:ring-1 focus:ring-pink focus:border-pink outline-none transition-all ${className}`}
               placeholder={placeholder || label}
             />
             {index === fields.length - 1 && append && (
@@ -103,12 +105,13 @@ const FormField: React.FC<FormFieldProps> = ({
 
       {type === "file" ? (
         <Input
-          className=""
+          className="text-white "
           id={name}
           {...register(name, {
             required: required ? errorMessage : false,
           })}
           type={type}
+          accept=".pdf,.png,.jpg,.jpeg,.webp"
           placeholder={placeholder}
         />
       ) : type === "date" ? (
@@ -128,7 +131,7 @@ const FormField: React.FC<FormFieldProps> = ({
                     <Button
                       disabled={disabled}
                       variant="outline"
-                      className="w-full py-5 bg-gray-200 dark:bg-slate-900  justify-between"
+                      className="w-full py-5 text-white hover:text-white justify-between"
                     >
                       {selectedDate
                         ? selectedDate.toLocaleDateString()
@@ -150,6 +153,22 @@ const FormField: React.FC<FormFieldProps> = ({
             }}
           />
         </div>
+      ) : type === "tag" ? (
+        <Controller
+          name={name}
+          control={control}
+          rules={{
+            required: required ? errorMessage : false,
+          }}
+          render={({ field }) => (
+            <TagInput
+              value={field.value || []}
+              onChange={field.onChange}
+              placeholder={placeholder}
+              className={className}
+            />
+          )}
+        />
       ) : type === "combobox" ? (
         <div className="space-y-1 w-full">
           <Controller

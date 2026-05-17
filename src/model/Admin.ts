@@ -1,23 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import mongoose, { Document } from "mongoose";
-import bcrypt from "bcryptjs";
+import { TAdmin } from "@/interface";
+import mongoose from "mongoose";
 
-interface IAdmin extends Document {
-  email: string;
-  password: string;
-  name?: string;
-}
+const adminSchema = new mongoose.Schema<TAdmin>(
+  {
+    email: { type: String, unique: true },
+    password: String,
+    role: { type: String, default: "admin" },
+  },
+  { timestamps: true },
+);
 
-const AdminSchema = new mongoose.Schema<IAdmin>({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  name: { type: String },
-}, { timestamps: true });
-
-AdminSchema.pre<IAdmin>("save", async function (this: IAdmin, next: any) {
-  if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
-});
-
-export default mongoose.models.Admin || mongoose.model<IAdmin>("Admin", AdminSchema);
+export default mongoose.models.Admin || mongoose.model("Admin", adminSchema);

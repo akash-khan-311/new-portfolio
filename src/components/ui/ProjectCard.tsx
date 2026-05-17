@@ -1,17 +1,9 @@
 import Image from "next/image";
 import Button from "./CustomButton";
-
-type Project = {
-  title: string;
-  image: string;
-  description: string;
-  codeLink: string;
-  liveLink: string;
-  technologies: string[];
-};
+import { TProject } from "@/interface";
 
 type Props = {
-  project: Project;
+  project: TProject;
 };
 
 function ProjectCard({ project }: Props) {
@@ -21,23 +13,23 @@ function ProjectCard({ project }: Props) {
   return (
     <section className=" dark:bg-[#000000] bg-white p-5 rounded-lg">
       <div className="flex flex-col md:flex-row justify-between items-center gap-x-10 ">
-        <div className="cursor-pointer gradient-border overflow-hidden  w-full lg:w-2/4 md:w-3/4 md:h-96  rounded-md">
+        <div className="cursor-pointer gradient-border overflow-hidden    lg:w-2/4 h-56  rounded-md">
           <Image
-            src={image}
+            src={image as string}
             className="hover:scale-105 transition-all duration-500 w-full h-full "
             alt={title}
-            width={500}
-            height={500}
+            width={400}
+            height={400}
           />
         </div>
         <div className="w-full md:w-3/5 flex flex-col justify-center items-center md:items-start">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl gradient-text capitalize  font-bold mt-5 md:mt-0">
+          <h2 className="text-3xl gradient-text capitalize  font-bold mt-5 md:mt-0">
             {title}
           </h2>
-          <p className="text-gray-400 text-lg lg:my-6 my-1 text-center md:text-left">
+          <p className="text-gray-400 text-sm lg:my-6 my-1 text-center md:text-left">
             {description}
           </p>
-          <div className="flex gap-5 flex-wrap justify-center items-center md:items-start md:justify-start">
+          <div className="flex gap-1 flex-wrap justify-center items-center md:items-start md:justify-start">
             {" "}
             {technologies.map((tech) => (
               <p
@@ -52,7 +44,7 @@ function ProjectCard({ project }: Props) {
             {/* Live Link */}
             <Button
               href={liveLink}
-              className=" text-white uppercase bg-[#87e63b] py-2 px-8 rounded-md text-sm"
+              className="  dark:text-white uppercase bg-[#87e63b] py-2 px-8 rounded-md text-sm"
             >
               Live Link
             </Button>
@@ -60,7 +52,7 @@ function ProjectCard({ project }: Props) {
             {/* Code Link */}
             <Button
               href={codeLink}
-              className=" text-white  uppercase bg-[#87e63b] py-2 px-8 rounded-md text-sm"
+              className=" dark:text-white  uppercase bg-[#87e63b] py-2 px-8 rounded-md text-sm"
             >
               Code Link
             </Button>

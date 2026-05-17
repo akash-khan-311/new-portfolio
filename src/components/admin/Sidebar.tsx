@@ -13,13 +13,34 @@ import { PiMonitorFill } from "react-icons/pi";
 import { FaCode } from "react-icons/fa";
 import Link from "next/link";
 import MenuItem from "./MenuItems";
+import { logout } from "@/lib/Auth/logout";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
+  const router = useRouter();
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
     console.log(isActive);
+  };
+  const handleLogout = async () => {
+    try {
+      const result = await logout();
+
+      if (result.success) {
+        toast.success("Logged out");
+
+        // clear any local state (if used)
+        localStorage.removeItem("accessToken");
+
+        router.push("/login");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Logout failed");
+    }
   };
   return (
     <>
@@ -83,14 +104,19 @@ const Sidebar = () => {
               label={"Information"}
               path={"/admin/info"}
             />
+            <MenuItem
+              icon={MdContactMail}
+              label={"My Resume"}
+              path={"/admin/resume"}
+            />
           </div>
         </div>
 
         <div className="mb-2">
           <hr className="border-white/20 mb-2" />
           <button
-            // onClick={() => signOut({ callbackUrl: "/" })}
-            className="flex w-full items-center px-4 py-2 hover:backdrop-blur-sm  text-white transition-colors duration-300 transform"
+            onClick={handleLogout}
+            className="flex w-full items-center px-4 cursor-pointer py-2 hover:backdrop-blur-sm hover:bg-white/10  text-white transition-colors duration-300 transform"
           >
             <MdLogout className="w-5 h-5" color="white" />
             <span className="mx-4 font-medium">Logout</span>

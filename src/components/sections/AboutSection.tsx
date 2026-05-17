@@ -9,12 +9,12 @@ import Button from "@/components/ui/CustomButton";
 import CurvedLoop from "@/components/CurvedLoop";
 import { useFetcher } from "@/hooks/useFetcher";
 import { highlightWord } from "@/helpers/highlightWord";
+import ResumeButton from "../ui/ResumeButton";
 export default function AboutSection() {
   const { data } = useFetcher("about");
-  const {data: skills } = useFetcher("skill");
-  const { heading, title, image } = data || {};
+  const { data: skills } = useFetcher("skill");
 
-  console.log(skills, "skills in about section");
+  const { heading, title, image } = data || {};
 
   return (
     <>
@@ -67,7 +67,13 @@ export default function AboutSection() {
                   className="aspect-3/4 h-full w-full object-cover transition duration-300 hover:scale-[1.015]"
                 />
                 <div className="absolute bottom-0 right-0">
-                  <Link className=" relative group  " href={"/contact"}>
+                  <Link
+                    className=" relative group  "
+                    href={
+                      "https://wa.me/8801719681150?text=Hello%20Akash,%20I%20am%20interested%20in%20your%20services."
+                    }
+                    target="_blank"
+                  >
                     {" "}
                     <CircularText
                       text="let's talk•let's talk•let's talk•"
@@ -95,9 +101,7 @@ export default function AboutSection() {
                 architecture, performance optimization, and creating seamless
                 digital experiences that deliver real value.
               </p>
-              <Button className="absolute" href="#contact">
-                Resume
-              </Button>
+              <ResumeButton />
             </div>
           </div>
         </div>

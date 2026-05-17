@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
+import { seedAdmin } from "./SeedAdmin";
 
 const MONGODB_URI = process.env.MONGODB_URI!;
 
@@ -21,6 +22,11 @@ export async function connectDB() {
       bufferCommands: false,
     });
   }
+
   cached.conn = await cached.promise;
+  console.log("MongoDB connected");
+
+  await seedAdmin();
+
   return cached.conn;
 }

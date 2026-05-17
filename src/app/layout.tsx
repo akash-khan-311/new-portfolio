@@ -40,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${clashDisplay.className} ${satoshi.className}  dark:bg-[#070710] bg-gray-200  h-full overflow-x-hidden`}
+      className={`${clashDisplay.className} ${satoshi.className}  dark:bg-[#070710] bg-gray-200  h-full overflow-x-hidden scroll-smooth`}
     >
       <body className="relative">
         <ThemeGuard />

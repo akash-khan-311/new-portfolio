@@ -1,4 +1,3 @@
-
 import { connectDB } from "@/lib/mongodb";
 import Experience from "@/model/Experience";
 import { NextRequest, NextResponse } from "next/server";
@@ -12,27 +11,66 @@ export async function GET() {
     data,
   });
 }
+
+export type TExperience = {
+  position: string;
+  company: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  _id?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  image?: string;
+  iconPublicId?: string;
+  type: "Remote" | "On-site" | "Hybrid";
+};
 export async function PUT(req: NextRequest) {
   try {
     await connectDB();
     const body = await req.json();
-    const { description, profileImage } = body;
-    if (!description || !profileImage) {
+    const {
+      position,
+      description,
+      image,
+      location,
+      startDate,
+      endDate,
+      company,
+      iconPublicId,
+      type,
+    } = body;
+    if (
+      !position ||
+      !description ||
+      !image ||
+      !location ||
+      !startDate ||
+      !endDate
+    ) {
       return NextResponse.json(
         { error: "Invalid data. Required fields missing." },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const updatedAbout = await Experience.findOneAndUpdate(
       {},
       {
+        position,
         description,
-        profileImage,
+        image,
+        location,
+        startDate,
+        endDate,
+        company,
+        iconPublicId,
+        type,
       },
       {
         new: true,
         upsert: true,
-      }
+      },
     );
 
     return NextResponse.json(updatedAbout, { status: 200 });
@@ -40,7 +78,7 @@ export async function PUT(req: NextRequest) {
     console.error("Experience update failed:", error);
     return NextResponse.json(
       { error: "Something went wrong!" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -49,11 +87,30 @@ export async function POST(req: NextRequest) {
   try {
     await connectDB();
     const body = await req.json();
-    const { company, role, startDate, endDate } = body;
-    if (!company || !role || !startDate) {
+    const {
+      position,
+      description,
+      image,
+      location,
+      startDate,
+      endDate,
+      company,
+      iconPublicId,
+      type,
+    } = body;
+    if (
+      !position ||
+      !description ||
+      !image ||
+      !location ||
+      !startDate ||
+      !endDate ||
+      !company ||
+      !type
+    ) {
       return NextResponse.json(
         { error: "Invalid data. Required fields missing." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -66,10 +123,15 @@ export async function POST(req: NextRequest) {
       });
     }
     const updatedExperience = await Experience.create({
-      company,
-      role,
+      position,
+      description,
+      image,
+      location,
       startDate,
       endDate,
+      company,
+      iconPublicId,
+      type,
     });
 
     return NextResponse.json({
@@ -82,7 +144,7 @@ export async function POST(req: NextRequest) {
     console.error("Experience Create failed:", error);
     return NextResponse.json(
       { error: "Something went wrong!" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

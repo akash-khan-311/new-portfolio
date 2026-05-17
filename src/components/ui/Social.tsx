@@ -3,6 +3,7 @@ import { useFetcher } from "@/hooks/useFetcher";
 import Link from "next/link";
 import React from "react";
 import { FiGithub, FiFacebook, FiLinkedin, FiInstagram } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function Social({ size = "lg" }: { size?: string }) {
   const { data, isLoading } = useFetcher("social");
@@ -14,7 +15,7 @@ export default function Social({ size = "lg" }: { size?: string }) {
       className="flex flex-wrap items-center gap-x-6 gap-y-3"
       aria-label="Social links"
     >
-      {socials.map(({ name, url }: { name: string; url: string }) => (
+      {socials?.map(({ name, url }: { name: string; url: string }) => (
         <Link
           key={name}
           href={url}
@@ -28,6 +29,8 @@ export default function Social({ size = "lg" }: { size?: string }) {
             <FiLinkedin className={`text-${size}`} />
           ) : name.toLowerCase() === "instagram" ? (
             <FiInstagram className={`text-${size}`} />
+          ) : name.toLowerCase() === "whatsapp" ? (
+            <FaWhatsapp className={`text-${size}`} />
           ) : null}
         </Link>
       ))}

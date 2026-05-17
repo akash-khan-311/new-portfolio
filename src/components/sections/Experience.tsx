@@ -1,43 +1,17 @@
+"use client";
 import React from "react";
 import SectionMiniTitle from "@/components/SectionMiniTitle";
 
 import AccordionSection from "@/components/ui/Accordion";
 import SectionTitle from "@/components/SectionTitle";
-
-const experienceData = [
-  {
-    image: "/images/codernest.jpg",
-    title: "Frontend Developer",
-    company: "CoderNest It Foundation",
-    startDate: "Jun 2025",
-    endDate: "Jun 2025",
-    descriptions:
-      "Working on building and maintaining scalable web applications using React.js/Next.js, focusing on clean code, performance, and modern user experiences.",
-  },
-  {
-    image: "/images/matrimony.png",
-    title: "Backend Develoepr",
-    company: "Matrimony Ltd",
-    startDate: "Jun 2025",
-    endDate: "Jul 2025",
-    descriptions:
-      "Fixed backend errors and improved performance.Built and integrated multiple REST APIs.",
-  },
-  {
-    image: "/images/techjpg.jpg",
-    title: "Full Stack Software Engineer (MERN)",
-    company: "TechOrbit IT",
-    startDate: "Sept 2025",
-    endDate: "Feb 2026",
-    descriptions:
-      "Working on building and maintaining scalable web applications using MERN/Next.js stack, focusing on clean code, performance, and modern user experiences.",
-  },
-];
+import { useFetcher } from "@/hooks/useFetcher";
+import ExperienceSkeleton from "../ui/Skeleton/ExperienceSkeleton";
 
 export default function Experience() {
+  const { data: experiences, isLoading } = useFetcher("experience");
   return (
     <div className="container mx-auto px-3 md:px-0 lg:pb-36 md:pb-24 pb-20">
-      <div className="flex flex-col lg:flex-row justify-center ">
+      <div className="flex flex-col lg:flex-row justify-between ">
         <div className="max-w-xl text-center lg:text-left">
           <SectionMiniTitle
             text="work history"
@@ -70,7 +44,11 @@ export default function Experience() {
             help build their top-notch products.
           </p>
         </div>
-        <AccordionSection items={experienceData} />
+        {isLoading ? (
+          <ExperienceSkeleton />
+        ) : (
+          <AccordionSection items={experiences} />
+        )}
       </div>
     </div>
   );

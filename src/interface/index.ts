@@ -28,10 +28,14 @@ export type TExperience = {
   createdAt?: string;
   updatedAt?: string;
   image?: string;
+  iconPublicId?: string;
   type: "Remote" | "On-site" | "Hybrid";
 };
 
 export type TProject = {
+  _id?: string;
+  createdAt?: string;
+  updatedAt?: string;
   title: string;
   description: string;
   image?: string | FileList;
@@ -51,4 +55,30 @@ export type TSocial = {
   name: string;
   url: string;
   icon: string;
+};
+
+export type TInfo = {
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+};
+
+export type TResume = {
+  _id?: string;
+  resume?: FileList;
+  title: string;
+  resumeUrl: string;
+  isPublished: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type TAdmin = {
+  _id?: string;
+  email: string;
+  password: string;
+  createdAt?: string;
+  role?: string;
+  updatedAt?: string;
 };

@@ -8,65 +8,46 @@ export const uploadImageToCloudinary = async ({
   oldPublicId?: string;
 }) => {
   try {
-    // =========================
-    // 1. UPLOAD NEW IMAGE FIRST
-    // =========================
-
     const formData = new FormData();
 
     formData.append("file", file);
     formData.append(
       "upload_preset",
-      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET as string
+      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET as string,
     );
-
     formData.append("folder", folder);
 
     const uploadRes = await fetch(
-      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload?resource_type=auto`,
       {
         method: "POST",
         body: formData,
-      }
+      },
     );
 
     const uploadData = await uploadRes.json();
 
     if (!uploadRes.ok) {
-      throw new Error(uploadData?.error?.message || "Image upload failed");
+      throw new Error(uploadData?.error?.message || "Upload failed");
     }
 
-    const newImage = {
+    const newFile = {
       url: uploadData.secure_url,
       public_id: uploadData.public_id,
     };
 
-    // =========================
-    // 2. DELETE OLD IMAGE (AFTER SUCCESS)
-    // =========================
-
     if (oldPublicId) {
       fetch("/api/delete-image", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          public_id: oldPublicId,
-        }),
-      }).catch((err) => {
-        console.warn("Old image delete failed:", err);
-      });
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ public_id: oldPublicId }),
+      }).catch(() => {});
     }
-
-    // =========================
-    // 3. RETURN NEW IMAGE
-    // =========================
 
     return {
       success: true,
-      url: newImage.url,
-      public_id: newImage.public_id,
+      url: newFile.url,
+      public_id: newFile.public_id,
     };
   } catch (error) {
     console.error("Cloudinary upload error:", error);

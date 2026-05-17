@@ -1,4 +1,12 @@
-import { TAbout, THero, TSkill } from "@/interface";
+import {
+  TAbout,
+  TExperience,
+  THero,
+  TProject,
+  TResume,
+  TSkill,
+} from "@/interface";
+import { fetchWithAuth } from "./Auth/fetchWithAuth";
 
 // Hero API
 export const getHeroData = async () => {
@@ -14,7 +22,7 @@ export const getHeroData = async () => {
 
 export const updateHeroData = async (payload: THero) => {
   try {
-    const res = await fetch(`/api/hero`, {
+    const res = await fetchWithAuth("/api/hero", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +69,7 @@ export const getAboutData = async () => {
 
 export const updateAboutData = async (payload: TAbout) => {
   try {
-    const res = await fetch(`/api/about`, {
+    const res = await fetchWithAuth("/api/about", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -110,23 +118,23 @@ export const updateSocialLinks = async (
   socials: { name: string; url: string }[],
 ) => {
   try {
-    const res = await fetch(`/api/social`, {
+    const res = await fetchWithAuth("/api/social", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ socials }),
+      body: JSON.stringify(socials),
     });
 
     if (!res.ok) {
-      throw new Error("Failed to update social links");
+      throw new Error("Failed to update social data");
     }
 
-    const result = await res.json();
+    const data = await res.json();
     return {
       success: true,
-      message: "Social Links Updated Successfully",
-      data: result,
+      message: "social Data Updated Successfully",
+      data: data,
     };
   } catch (error) {
     console.error("Error updating social links:", error);
@@ -147,7 +155,7 @@ export const updateSocialLinks = async (
 
 export const createSkill = async (payload: TSkill) => {
   try {
-    const res = await fetch("/api/skill", {
+    const res = await fetchWithAuth("/api/skill", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -155,9 +163,16 @@ export const createSkill = async (payload: TSkill) => {
       body: JSON.stringify(payload),
     });
 
-    const data = await res.json();
+    if (!res.ok) {
+      throw new Error("Failed to update skill data");
+    }
 
-    return data;
+    const data = await res.json();
+    return {
+      success: true,
+      message: "skill Data Updated Successfully",
+      data: data,
+    };
   } catch (error) {
     console.log(error);
 
@@ -183,20 +198,22 @@ export const getAllSkills = async () => {
 
 export const updateSkill = async (id: string, payload: TSkill) => {
   try {
-    const res = await fetch(`/api/skill/${id}`, {
+    const res = await fetchWithAuth("/api/skill", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
     });
+
     if (!res.ok) {
-      throw new Error("Failed to update skill");
+      throw new Error("Failed to update skill data");
     }
+
     const data = await res.json();
     return {
       success: true,
-      message: "Skill updated successfully",
+      message: "skill Data Updated Successfully",
       data: data,
     };
   } catch (error) {
@@ -216,23 +233,266 @@ export const updateSkill = async (id: string, payload: TSkill) => {
 
 export const deleteSkill = async (id: string) => {
   try {
-    const res = await fetch(`/api/skill/${id}`, {
+    const res = await fetchWithAuth(`/api/skill/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to Delete skill data");
+    }
+
+    const data = await res.json();
+    return {
+      success: true,
+      message: "skill Data Deleted Successfully",
+      data: data,
+    };
+  } catch (error) {
+    console.error("Error deleting skill:", error);
+    throw new Error("Failed to delete skill");
+  }
+};
+
+// Experience API
+export const createExperience = async (payload: TExperience) => {
+  try {
+    const res = await fetchWithAuth("/api/experience", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to create experience data");
+    }
+
+    const data = await res.json();
+    return {
+      success: true,
+      message: "experience Data Created Successfully",
+      data: data,
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      success: false,
+      message: "Failed to create experience",
+    };
+  }
+};
+
+export const updateExperience = async (id: string, payload: TExperience) => {
+  try {
+    const res = await fetchWithAuth(`/api/experience/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to update experience data");
+    }
+
+    const data = await res.json();
+    return {
+      success: true,
+      message: "Hero Data Updated Successfully",
+      data: data,
+    };
+  } catch (error) {
+    console.error("Error updating experience:", error);
+
+    const message =
+      error instanceof Error
+        ? error.message
+        : String(error) || "Something went wrong";
+    return {
+      success: false,
+      message: message,
+      data: null,
+    };
+  }
+};
+
+export const deleteExperience = async (id: string) => {
+  try {
+    const res = await fetchWithAuth(`/api/experience${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to Delete experience data");
+    }
+
+    const data = await res.json();
+    return {
+      success: true,
+      message: "experience Data Deleted Successfully",
+      data: data,
+    };
+  } catch (error) {
+    console.error("Error deleting experience:", error);
+    throw new Error("Failed to delete experience");
+  }
+};
+// Project API
+export const createProject = async (payload: TProject) => {
+  try {
+    const res = await fetchWithAuth("/api/project", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+
+    return {
+      success: false,
+      message: "Failed to create project",
+    };
+  }
+};
+
+export const updateProject = async (id: string, payload: TProject) => {
+  try {
+    const res = await fetchWithAuth(`/api/project/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      throw new Error("Failed to update project");
+    }
+    const data = await res.json();
+    return {
+      success: true,
+      message: "Project updated successfully",
+      data: data,
+    };
+  } catch (error) {
+    console.error("Error updating project:", error);
+
+    const message =
+      error instanceof Error
+        ? error.message
+        : String(error) || "Something went wrong";
+    return {
+      success: false,
+      message: message,
+      data: null,
+    };
+  }
+};
+
+export const deleteProject = async (id: string) => {
+  try {
+    const res = await fetchWithAuth(`/api/project/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
     });
     if (!res.ok) {
-      throw new Error("Failed to delete skill");
+      throw new Error("Failed to delete project");
     }
     const data = await res.json();
     return {
       success: true,
-      message: "Skill deleted successfully",
+      message: "Project deleted successfully",
       data: data,
     };
   } catch (error) {
-    console.error("Error deleting skill:", error);
-    throw new Error("Failed to delete skill");
+    console.error("Error deleting project:", error);
+    throw new Error("Failed to delete project");
+  }
+};
+
+export const createResume = async (payload: TResume) => {
+  const res = await fetchWithAuth("/api/resume", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  return res.json();
+};
+
+export const publishResume = async (id: string) => {
+  const res = await fetchWithAuth(`/api/resume/${id}`, {
+    method: "PATCH",
+  });
+
+  return res.json();
+};
+
+export const getPublishedResume = async () => {
+  try {
+    const res = await fetchWithAuth(`/api/resume/published`);
+    if (!res.ok) {
+      throw new Error("Failed to fetch skills");
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching skills:", error);
+    throw new Error("Failed to fetch skills");
+  }
+};
+
+export const deleteResume = async (id: string) => {
+  const res = await fetchWithAuth(`/api/resume/${id}`, {
+    method: "DELETE",
+  });
+
+  return res.json();
+};
+
+// Auth Api
+type TLogin = { email: string; password: string };
+export const login = async (payload: TLogin) => {
+  try {
+    const res = await fetchWithAuth("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+      credentials: "include",
+    });
+
+    return res.json();
+  } catch (error) {
+    console.error("Error login:", error);
+
+    const message =
+      error instanceof Error
+        ? error.message
+        : String(error) || "Something went wrong";
+    return {
+      success: false,
+      message: message,
+      data: null,
+    };
   }
 };

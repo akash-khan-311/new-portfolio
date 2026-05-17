@@ -10,7 +10,6 @@ type Props = {
 };
 
 const CurvedLoop = ({ items = [], className }: Props) => {
-  // Duplicate items to create seamless loop
   const repeated = [...items, ...items, ...items];
 
   return (
@@ -38,14 +37,16 @@ const CurvedLoop = ({ items = [], className }: Props) => {
             key={index}
             className={`${className} flex items-center gap-4 px-2   tracking-widest whitespace-nowrap select-none`}
           >
-            {item.name && (
+            {item.icon && (
               <Image
-                src={item?.icon as string}
+                src={item.icon}
                 alt={item.name}
                 width={20}
                 height={20}
+                className="object-contain"
               />
             )}
+
             {item.name}
           </span>
         ))}

@@ -171,7 +171,7 @@ const ComboBox = ({
           onChange={handleInputChange}
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
-          className={`w-full px-4 py-3 pr-20 border bg-gray-200 dark:bg-slate-900 border-gray-300 dark:border-gray-700 text-gray-800 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 ${className}`}
+          className={`w-full px-4 py-3 pr-20 border  border-gray-300 dark:border-gray-700 text-gray-800 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 ${className}`}
         />
 
         {/* CLEAR BUTTON */}
@@ -211,7 +211,7 @@ const ComboBox = ({
 
       {/* OPTIONS */}
       {isOpen && (
-        <div className="absolute z-50 w-full mt-2 bg-white dark:bg-slate-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+        <div className="absolute z-50 w-full mt-2 bg-slate-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
           {filteredOptions.length > 0 ? (
             filteredOptions.map((option, index) => (
               <button
@@ -224,8 +224,8 @@ const ComboBox = ({
                 onMouseEnter={() => setHighlightedIndex(index)}
                 className={`w-full text-left px-4 py-3 capitalize transition-colors ${
                   highlightedIndex === index
-                    ? "bg-violet-500 text-white"
-                    : "text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-800"
+                    ? "bg-white/10 text-white"
+                    : "text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-800"
                 }`}
               >
                 {option}

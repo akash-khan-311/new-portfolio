@@ -14,6 +14,7 @@ import { useFetcher } from "@/hooks/useFetcher";
 import { createSkill, updateSkill } from "@/lib";
 
 import AllSkills from "./_components/AllSkills";
+import PageTitle from "../_components/PageTitle";
 
 const deaultValues: TSkill = {
   name: "",
@@ -49,7 +50,7 @@ export default function SkillsAdmin() {
       if (file) {
         const uploaded = await uploadImageToCloudinary({
           file,
-          folder: "portfolio1/about",
+          folder: "portfolio1/skills",
           oldPublicId: skills.find((s: TSkill) => s._id === editingId)
             ?.iconPublicId,
         });
@@ -110,17 +111,18 @@ export default function SkillsAdmin() {
     <>
       <div className="min-h-screen p-6">
         <div className="">
+          <PageTitle
+            title={editingId ? "Update Skill" : "Add Skill"}
+            description="Add or update your skills"
+          />
           {/* FORM */}
-          <div className="border border-white/10 rounded-2xl p-6">
-            <h1 className="text-3xl font-bold mb-8 text-white">
-              {editingId ? "Update Skill" : "Add Skill"}
-            </h1>
-
+          <div className="border border-white/10 rounded-2xl p-6 mt-10">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <FormField
                 label="Skill Name"
-                className=" bg-gray-200  dark:bg-slate-900"
+                className=" bg-black/10 text-white"
                 name="name"
+                type="text"
                 placeholder="React.js"
                 register={register}
                 errors={errors}
@@ -144,7 +146,7 @@ export default function SkillsAdmin() {
                   register={register}
                   errors={errors}
                   required
-                  className=" bg-gray-200  dark:bg-slate-900"
+                  className=" bg-black/10 text-white"
                   errorMessage="Category is required"
                 />
 
@@ -158,7 +160,7 @@ export default function SkillsAdmin() {
                   register={register}
                   errors={errors}
                   required
-                  className=" bg-gray-200  dark:bg-slate-900"
+                  className=" bg-black/10 text-white"
                   errorMessage="Proficiency is required"
                 />
               </div>
@@ -173,7 +175,7 @@ export default function SkillsAdmin() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="h-12 px-6 rounded-xl bg-violet-600 text-white"
+                className="h-12 px-6 rounded-xl gradient-border cursor-pointer text-white"
               >
                 {isSubmitting
                   ? "Processing..."

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { getSocialLinks, updateSocialLinks } from "@/lib";
 import { refreshSocial } from "@/lib/swr";
 import toast from "react-hot-toast";
+import PageTitle from "../_components/PageTitle";
 
 type SocialForm = {
   socials: {
@@ -68,9 +69,9 @@ export default function SocialAdmin() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Social Media Links</h1>
+      <PageTitle title="Social Links" description="Update your social links" />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-10">
         {/* DYNAMIC LIST */}
         <div className="space-y-4">
           {loading ? (
@@ -97,7 +98,9 @@ export default function SocialAdmin() {
                 className="glass p-6 rounded-xl border border-white/10"
               >
                 <div className="flex justify-between mb-3">
-                  <h2 className="font-semibold">Social #{index + 1}</h2>
+                  <h2 className="font-semibold text-white">
+                    Social #{index + 1}
+                  </h2>
 
                   <button
                     type="button"
@@ -112,13 +115,13 @@ export default function SocialAdmin() {
                   <input
                     {...register(`socials.${index}.name`)}
                     placeholder="Platform Name"
-                    className="w-full p-3 bg-white/5 border rounded-lg"
+                    className="w-full p-3 bg-white/5 border text-white rounded-lg"
                   />
 
                   <input
                     {...register(`socials.${index}.url`)}
                     placeholder="Platform URL"
-                    className="w-full p-3 bg-white/5 border rounded-lg"
+                    className="w-full p-3 bg-white/5 border text-white rounded-lg"
                   />
                 </div>
               </div>
@@ -127,12 +130,19 @@ export default function SocialAdmin() {
         </div>
 
         {/* BUTTONS */}
-        <div className="flex gap-4">
-          <Button type="button" onClick={() => append({ name: "", url: "" })}>
+        <div className="flex justify-between gap-4">
+          <Button
+            type="button"
+            className="gradient-border px-10 py-2 cursor-pointer text-white"
+            onClick={() => append({ name: "", url: "" })}
+          >
             <Plus size={18} /> Add New
           </Button>
 
-          <Button type="submit">
+          <Button
+            className="gradient-border px-10 py-2 cursor-pointer text-white"
+            type="submit"
+          >
             <Save size={18} /> Save All
           </Button>
         </div>

@@ -11,6 +11,7 @@ import { uploadImageToCloudinary } from "@/lib/uploadImageToCloudinary";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import PageTitle from "../_components/PageTitle";
 
 export default function AdminAboutPage() {
   //   const { data } = useFetcher("about");
@@ -139,44 +140,49 @@ export default function AdminAboutPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit(submitForm)} className="space-y-5">
-      <FormField
-        label="Heading"
-        name="heading"
-        type="text"
-        register={register}
-        errors={errors}
-      />
+    <div>
+      <PageTitle title="About" description="Update about section" />
+      <form onSubmit={handleSubmit(submitForm)} className="space-y-5 mt-10">
+        <FormField
+          label="Heading"
+          name="heading"
+          className="text-white"
+          type="text"
+          register={register}
+          errors={errors}
+        />
 
-      <FormField
-        label="Title"
-        name="title"
-        type="text"
-        register={register}
-        errors={errors}
-      />
+        <FormField
+          label="Title"
+          name="title"
+          className="text-white"
+          type="text"
+          register={register}
+          errors={errors}
+        />
 
-      <FormField
-        label="Description"
-        name="description"
-        type="textarea"
-        register={register}
-        errors={errors}
-      />
+        <FormField
+          label="Description"
+          name="description"
+          type="textarea"
+          register={register}
+          errors={errors}
+        />
 
-      <SingleImageUploadField
-        setValue={setValue}
-        existingImage={aboutData?.image}
-        resetTrigger={resetTrigger}
-        fieldName="image"
-      />
+        <SingleImageUploadField
+          setValue={setValue}
+          existingImage={aboutData?.image}
+          resetTrigger={resetTrigger}
+          fieldName="image"
+        />
 
-      <button
-        type="submit"
-        className="bg-green-600 px-6 py-2 rounded text-white"
-      >
-        {submitFormLoading ? "Saving..." : "Save"}
-      </button>
-    </form>
+        <button
+          type="submit"
+          className="gradient-border px-10 py-2 rounded text-white w-full lg:w-1/4 cursor-pointer"
+        >
+          {submitFormLoading ? "Saving..." : "Save"}
+        </button>
+      </form>
+    </div>
   );
 }

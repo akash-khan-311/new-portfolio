@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { THero } from "@/interface";
 import { refreshHero } from "@/lib/swr";
 import { getHeroData, updateHeroData } from "@/lib";
+import PageTitle from "../_components/PageTitle";
 
 export default function HeroAdmin() {
   const {
@@ -72,15 +73,14 @@ export default function HeroAdmin() {
   };
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-2">Hero Section</h1>
-      <p className="text-gray-400 mb-8">
-        Manage your portfolio&apos;s hero content
-      </p>
-
-      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      <PageTitle
+        title="Hero Section"
+        description="Manage your portfolio's hero content"
+      />
+      <form className="space-y-6 mt-10" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <FormField
-            className=" bg-black/10"
+            className=" bg-black/10 text-white"
             label="Heading"
             name="heading"
             type="text"
@@ -91,7 +91,7 @@ export default function HeroAdmin() {
             errorMessage="Heading is required"
           />
           <FormField
-            className=" bg-black/10"
+            className=" bg-black/10 text-white"
             label="Gradient Title"
             name="gradientTitle"
             type="text"
@@ -102,7 +102,7 @@ export default function HeroAdmin() {
             errorMessage="Gradient title is required"
           />
           <FormField
-            className=" bg-black/10 outline-none focus:ring-0 "
+            className=" bg-black/10 text-white"
             label="Description"
             name="description"
             type="textarea"
@@ -115,7 +115,7 @@ export default function HeroAdmin() {
         </div>
         <div>
           <Button
-            className="gradient-border"
+            className="gradient-border cursor-pointer"
             type="submit"
             disabled={loading || isSubmitting}
           >

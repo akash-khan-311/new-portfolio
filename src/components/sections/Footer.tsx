@@ -11,6 +11,9 @@ import Link from "next/link";
 import SectionTitle from "@/components/SectionTitle";
 import Button from "@/components/ui/CustomButton";
 import { usePathname } from "next/navigation";
+import Social from "../ui/Social";
+import { useFetcher } from "@/hooks/useFetcher";
+import { TSocial } from "@/interface";
 
 const socialLinks = [
   { icon: FaGithub, href: "https://github.com", label: "GitHub" },
@@ -28,9 +31,14 @@ const socialLinks = [
 const fullYear = new Date().getFullYear();
 
 export default function Footer() {
+  const { data, isLoading } = useFetcher("social");
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
   const isLogin = pathname.startsWith("/login");
+  const whatsapp = data?.socials?.find(
+    (s: TSocial) => s?.name?.toLowerCase() === "whatsapp",
+  );
+
   return (
     <footer className={`${(isAdmin || isLogin) && "hidden "} relative w-full `}>
       <div className="container mx-auto px-3 md:px-0  ">
@@ -59,7 +67,16 @@ export default function Footer() {
                 textAlign="center"
               />
               <div className="flex justify-center">
-                <Button href="#contact">Contact Me</Button>
+                <Link
+                  className="gradient-border px-10 py-2 rounded-full"
+                  target="_blank"
+                  href={
+                    whatsapp?.url ||
+                    "https://wa.me/8801719681150?text=Hello%20Akash,%20I%20am%20interested%20in%20your%20services."
+                  }
+                >
+                  Contact Me
+                </Link>
               </div>
             </div>
           </div>
@@ -72,21 +89,12 @@ export default function Footer() {
 
           {/* Right Side - Social Icons */}
           <div className="flex items-center gap-5 order-1 md:order-2">
-            {socialLinks.map((social) => {
-              const Icon = social.icon;
-              return (
-                <Link
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="text-gray-500 hover:text-white dark:hover:text-white transition-colors duration-300"
-                >
-                  <Icon className="w-5 h-5" strokeWidth={1.5} />
-                </Link>
-              );
-            })}
+            <nav
+              className="md:flex hidden flex-wrap items-center gap-x-6 gap-y-3"
+              aria-label="Social links"
+            >
+              <Social />
+            </nav>
           </div>
         </div>
       </div>

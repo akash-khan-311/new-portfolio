@@ -32,7 +32,7 @@ export default function AllSkills({ skills, handleEdit }: Props) {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleEdit(skill)}
-                  className="p-2 hover:bg-white/10 rounded-lg"
+                  className="p-2 hover:bg-white/10 text-white rounded-lg"
                 >
                   <Edit size={16} />
                 </button>
@@ -41,15 +41,19 @@ export default function AllSkills({ skills, handleEdit }: Props) {
                 </button>
               </div>
             </div>
-            <h3 className="text-xl font-bold mb-1">{skill.name}</h3>
-            <p className="text-sm text-gray-400 mb-3">{skill.category}</p>
+            <h3 className="text-xl font-bold mb-1 text-white">{skill.name}</h3>
+            <p className="text-sm text-gray-400 capitalize mb-3">
+              {skill.category}
+            </p>
             <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
               <div
                 className="h-full bg-linear-to-r from-purple-500 to-pink-500"
                 style={{ width: `${skill.proficiency}%` }}
               />
             </div>
-            <p className="text-right text-sm mt-2">{skill.proficiency}%</p>
+            <p className="text-right text-sm mt-2 text-white">
+              {skill.proficiency}%
+            </p>
           </motion.div>
         ))}
       </div>
