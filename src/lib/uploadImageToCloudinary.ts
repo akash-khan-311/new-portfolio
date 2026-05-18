@@ -3,18 +3,29 @@ export const uploadImageToCloudinary = async ({
   folder,
   oldPublicId,
 }: {
-  file: File;
+  file: File | null;
   folder: string;
   oldPublicId?: string;
 }) => {
   try {
+
+    if (!file) {
+      return {
+        success: false,
+        url: "",
+        public_id: "",
+      };
+    }
+
     const formData = new FormData();
 
     formData.append("file", file);
+
     formData.append(
       "upload_preset",
-      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET as string,
+      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET as string
     );
+
     formData.append("folder", folder);
 
     const uploadRes = await fetch(
@@ -22,13 +33,15 @@ export const uploadImageToCloudinary = async ({
       {
         method: "POST",
         body: formData,
-      },
+      }
     );
 
     const uploadData = await uploadRes.json();
 
     if (!uploadRes.ok) {
-      throw new Error(uploadData?.error?.message || "Upload failed");
+      throw new Error(
+        uploadData?.error?.message || "Upload failed"
+      );
     }
 
     const newFile = {
@@ -36,12 +49,19 @@ export const uploadImageToCloudinary = async ({
       public_id: uploadData.public_id,
     };
 
+    // delete old image after successful upload
     if (oldPublicId) {
       fetch("/api/delete-image", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ public_id: oldPublicId }),
-      }).catch(() => {});
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          public_id: oldPublicId,
+        }),
+      }).catch((err) => {
+        console.error("Delete old image failed:", err);
+      });
     }
 
     return {

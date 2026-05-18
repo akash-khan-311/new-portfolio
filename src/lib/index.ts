@@ -2,6 +2,7 @@ import {
   TAbout,
   TExperience,
   THero,
+  TInfo,
   TProject,
   TResume,
   TSkill,
@@ -198,7 +199,7 @@ export const getAllSkills = async () => {
 
 export const updateSkill = async (id: string, payload: TSkill) => {
   try {
-    const res = await fetchWithAuth("/api/skill", {
+    const res = await fetchWithAuth(`/api/skill/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -494,5 +495,57 @@ export const login = async (payload: TLogin) => {
       message: message,
       data: null,
     };
+  }
+};
+
+// Info API
+
+export const getAllInfo = async () => {
+  try {
+    const res = await fetchWithAuth("/api/info", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error getting info:", error);
+    throw new Error("Failed to get info");
+  }
+};
+
+export const createInfo = async (payload: TInfo) => {
+  try {
+    const res = await fetchWithAuth("/api/info", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error creating info:", error);
+    throw new Error("Failed to create info");
+  }
+};
+
+export const updateInfo = async (id: string, payload: TInfo) => {
+  try {
+    const res = await fetchWithAuth(`/api/info`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error updating info:", error);
+    throw new Error("Failed to update info");
   }
 };

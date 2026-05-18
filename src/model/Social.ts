@@ -9,8 +9,7 @@ const SocialSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.models.Social ||
-  mongoose.model("Social", SocialSchema);
+export default mongoose.models.Social || mongoose.model("Social", SocialSchema);

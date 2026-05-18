@@ -3,7 +3,7 @@ export interface TSkill {
   name: string;
   category: string;
   proficiency: number;
-  icon?: string;
+  icon?: string | File | null;
   iconPublicId?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -54,14 +54,16 @@ export type THero = {
 export type TSocial = {
   name: string;
   url: string;
-  icon: string;
 };
 
 export type TInfo = {
+  _id?: string;
   name: string;
   email: string;
   phone: string;
   location: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type TResume = {

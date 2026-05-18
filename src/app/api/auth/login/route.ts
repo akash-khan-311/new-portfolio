@@ -14,7 +14,10 @@ export async function POST(req: Request) {
 
     if (!admin) {
       return NextResponse.json(
-        { success: false, message: "Invalid credentials" },
+        {
+          success: false,
+          message: "Invalid credentials",
+        },
         { status: 401 },
       );
     }
@@ -23,21 +26,35 @@ export async function POST(req: Request) {
 
     if (!isMatch) {
       return NextResponse.json(
-        { success: false, message: "Invalid credentials" },
+        {
+          success: false,
+          message: "Invalid credentials",
+        },
         { status: 401 },
       );
     }
 
+    // ACCESS TOKEN
     const accessToken = jwt.sign(
-      { id: admin._id, role: admin.role },
+      {
+        id: admin._id,
+        role: admin.role,
+      },
       process.env.ACCESS_TOKEN_SECRET!,
-      { expiresIn: "15m" },
+      {
+        expiresIn: "1m",
+      },
     );
 
+    // REFRESH TOKEN
     const refreshToken = jwt.sign(
-      { id: admin._id, role: admin.role },
+      {
+        id: admin._id,
+      },
       process.env.REFRESH_TOKEN_SECRET!,
-      { expiresIn: "7d" },
+      {
+        expiresIn: "7d",
+      },
     );
 
     const response = NextResponse.json({
@@ -45,12 +62,22 @@ export async function POST(req: Request) {
       message: "Login successful",
     });
 
+    // ACCESS TOKEN COOKIE
     response.cookies.set("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 15,
+      maxAge: 60 * 60,
+    });
+
+    // REFRESH TOKEN COOKIE
+    response.cookies.set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
     });
 
     return response;
@@ -58,7 +85,10 @@ export async function POST(req: Request) {
     console.error(err);
 
     return NextResponse.json(
-      { success: false, message: "Server error" },
+      {
+        success: false,
+        message: "Server error",
+      },
       { status: 500 },
     );
   }

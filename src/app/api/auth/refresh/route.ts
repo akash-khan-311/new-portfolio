@@ -7,7 +7,10 @@ export async function POST(req: NextRequest) {
 
     if (!refreshToken) {
       return NextResponse.json(
-        { success: false, message: "No refresh token" },
+        {
+          success: false,
+          message: "No refresh token",
+        },
         { status: 401 }
       );
     }
@@ -17,17 +20,16 @@ export async function POST(req: NextRequest) {
       process.env.REFRESH_TOKEN_SECRET!
     ) as {
       id: string;
-      role: string;
     };
 
+    // NEW ACCESS TOKEN
     const newAccessToken = jwt.sign(
       {
         id: decoded.id,
-        role: decoded.role,
       },
       process.env.ACCESS_TOKEN_SECRET!,
       {
-        expiresIn: "15m",
+        expiresIn: "1m",
       }
     );
 
@@ -35,12 +37,13 @@ export async function POST(req: NextRequest) {
       success: true,
     });
 
+    // SET NEW ACCESS TOKEN
     response.cookies.set("accessToken", newAccessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 15,
+      maxAge: 60,
     });
 
     return response;

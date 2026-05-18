@@ -48,9 +48,9 @@ export async function PATCH(
   try {
     await connectDB();
     const body = await req.json();
-    const { name, icon }: TSocial = body;
+    const { name, url }: TSocial = body;
 
-    if (!name || !icon) {
+    if (!name || !url) {
       return NextResponse.json(
         { success: false, message: "All fields are required" },
         { status: 400 },
@@ -59,7 +59,7 @@ export async function PATCH(
 
     const updatedExperience = await Social.findByIdAndUpdate(
       id,
-      { name, icon },
+      { name, url },
       { new: true },
     );
 

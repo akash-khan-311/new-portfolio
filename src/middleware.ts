@@ -1,20 +1,12 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const token = req.cookies.get("accessToken")?.value;
-  console.log("this token from middlware", token);
-  const isAdminRoute = req.nextUrl.pathname.startsWith("/admin");
+  const accessToken = req.cookies.get("accessToken")?.value;
 
-  if (isAdminRoute) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/login", req.url));
-    }
+  const { pathname } = req.nextUrl;
 
-    try {
-      return NextResponse.next();
-    } catch (err) {
-      console.error(err);
+  if (pathname.startsWith("/admin")) {
+    if (!accessToken) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
   }

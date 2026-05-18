@@ -42,7 +42,7 @@ export default function SkillsAdmin() {
   const onSubmit = async (formData: any) => {
     try {
       setSubmitFormLoading(true);
-      const file = formData.icon as File;
+      const file = formData.icon instanceof File ? formData.icon : null;
       let iconUrl = skills.find((s: TSkill) => s._id === editingId)?.icon;
       let iconPublicId = skills.find(
         (s: TSkill) => s._id === editingId,
@@ -54,6 +54,7 @@ export default function SkillsAdmin() {
           oldPublicId: skills.find((s: TSkill) => s._id === editingId)
             ?.iconPublicId,
         });
+
         if (!uploaded?.url) {
           toast.error("Image upload failed");
           return;
@@ -71,7 +72,7 @@ export default function SkillsAdmin() {
       const result = editingId
         ? await updateSkill(editingId, payload)
         : await createSkill(payload);
-
+      console.log("this is result", payload);
       if (!result.success) {
         toast.error(result.message || "Update failed");
         return;
