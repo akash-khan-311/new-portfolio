@@ -26,7 +26,7 @@ const ContactSection: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-3 md:px-0 lg:pb-36 md:pb-24 pb-20">
+    <div className="container mx-auto px-3 md:px-0 lg:pb-36 md:pb-24 pb-20 overflow-x-hidden">
       <div className="flex flex-col lg:flex-row justify-center ">
         <div className="">
           <SectionMiniTitle

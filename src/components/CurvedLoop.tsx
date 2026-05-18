@@ -13,7 +13,7 @@ const CurvedLoop = ({ items = [], className }: Props) => {
   const repeated = [...items, ...items, ...items];
 
   return (
-    <div className="w-full border-y dark:border-[#2a2a2a] border-[#cbd5e1] py-4 overflow-hidden relative">
+    <div className="w-full border-y dark:border-[#2a2a2a] border-[#cbd5e1] py-4 overflow-x-hidden relative">
       {/* Left fade */}
       <div className="absolute left-0 top-0 h-full w-10 md:w-52 z-10 pointer-events-none bg-linear-to-r from-white dark:from-[#0b0b0d] to-transparent" />
       {/* Right fade */}

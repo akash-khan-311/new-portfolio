@@ -9,19 +9,31 @@ export default function LenisProvider({
   children: React.ReactNode;
 }) {
   useEffect(() => {
-    const lenis = new Lenis();
+    const lenis = new Lenis({
+      lerp: 0.08,
+      smoothWheel: true,
+      autoResize: true,
+    });
 
-    let rafId: number;
+    let frameId: number;
 
-    const raf = (time: number) => {
+    function raf(time: number) {
       lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    };
+      frameId = requestAnimationFrame(raf);
+    }
 
-    rafId = requestAnimationFrame(raf);
+    frameId = requestAnimationFrame(raf);
+
+    // Fix dynamic height issues
+    const resizeObserver = new ResizeObserver(() => {
+      lenis.resize();
+    });
+
+    resizeObserver.observe(document.body);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
       lenis.destroy();
     };
   }, []);
