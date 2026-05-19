@@ -7,6 +7,8 @@ import ClientWraper from "./Wraper/ClientWrapper";
 
 import localFont from "next/font/local";
 import LenisProvider from "./Provider/LenisProvider";
+import ScrollToTop from "@/lib/ScrollToTop";
+import EyeFollower from "@/lib/ai/EyeFollower";
 
 const clashDisplay = localFont({
   src: [
@@ -46,6 +48,8 @@ export default function RootLayout({
       <body className="relative">
         <ThemeGuard />
         <LenisProvider>
+          <ScrollToTop />
+          <EyeFollower />
           <ClientWraper>{children}</ClientWraper>
         </LenisProvider>
       </body>
