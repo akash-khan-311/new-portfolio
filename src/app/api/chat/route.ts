@@ -25,9 +25,6 @@ export async function POST(req: Request) {
       });
     }
 
-    // =================================================
-    // 🧠 STEP 2: STATIC QUESTION MATCHER
-    // =================================================
     const matched = handlePortfolioQuestions(latest);
     if (matched) {
       return new Response(matched, {
@@ -35,9 +32,6 @@ export async function POST(req: Request) {
       });
     }
 
-    // =================================================
-    // 🧠 STEP 3: RESUME SPECIAL CASE
-    // =================================================
     if (latest.includes("resume") || latest.includes("cv")) {
       return new Response(
         "Resume Link: https://sie4z1povjuezbay.public.blob.vercel-storage.com/MERN%20Resume%20%2830-03-2026%29-K90j5gG8LZkptpos16s6ZcKV0LQr0l.pdf",
@@ -47,9 +41,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // =================================================
-    // 🧠 STEP 4: AI FALLBACK (ONLY GENERAL CHAT)
-    // =================================================
     const completion = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
       stream: true,
@@ -68,9 +59,8 @@ export async function POST(req: Request) {
       ],
     });
 
-    // =================================================
     // STREAM RESPONSE
-    // =================================================
+
     const encoder = new TextEncoder();
 
     const stream = new ReadableStream({

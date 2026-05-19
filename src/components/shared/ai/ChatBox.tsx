@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/immutability */
 "use client";
+
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowUp,
@@ -10,12 +10,15 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+
 import { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+
 import remarkGfm from "remark-gfm";
+
 type Message = {
   id: string;
   role: "user" | "assistant";
@@ -39,22 +42,33 @@ export default function AIChatbox({
   setIsOpen: (isOpen: boolean) => void;
 }) {
   const chatEndRef = useRef<HTMLDivElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [messages, setMessages] = useState<Message[]>(() => {
     if (typeof window !== "undefined") {
-      const savedMessages = localStorage.getItem("ai-chat-messages");
+      const saved = localStorage.getItem("ai-chat-messages");
 
-      return savedMessages ? JSON.parse(savedMessages) : [];
+      return saved ? JSON.parse(saved) : [];
     }
 
     return [];
   });
+
   const [input, setInput] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [showWelcome, setShowWelcome] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(messages.length === 0);
   const [isTyping, setIsTyping] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [isDark, setIsDark] = useState(false);
+
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  // AUTO SCROLL
+
   useEffect(() => {
     requestAnimationFrame(() => {
       chatEndRef.current?.scrollIntoView({
@@ -62,21 +76,30 @@ export default function AIChatbox({
         block: "end",
       });
     });
-  }, [messages.length]);
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
+  }, [messages]);
+
+  // SAVE CHAT
+
+  useEffect(() => {
+    localStorage.setItem("ai-chat-messages", JSON.stringify(messages));
+
+    if (messages.length > 0) {
+      setShowWelcome(false);
+    }
+  }, [messages]);
+
+  // VOICE
+
   const handleVoice = async () => {
     if (!browserSupportsSpeechRecognition) {
       alert("Browser does not support speech recognition");
+
       return;
     }
 
     if (listening) {
       SpeechRecognition.stopListening();
+
       return;
     }
 
@@ -87,57 +110,16 @@ export default function AIChatbox({
       language: "en-US",
     });
   };
+
   useEffect(() => {
     setInput(transcript);
   }, [transcript]);
-  useEffect(() => {
-    if (messages.length > 0) {
-      setShowWelcome(false);
-    }
-  }, [messages.length]);
-  useEffect(() => {
-    localStorage.setItem("ai-chat-messages", JSON.stringify(messages));
-  }, [messages]);
-  useEffect(() => {
-    const theme = localStorage.getItem("theme");
 
-    setIsDark(theme === "dark");
-  }, []);
-  const handleMaximize = () => {
-    setIsMaximized(!isMaximized);
-  };
-  const t = {
-    pageBg: isDark ? "#111111" : "#f2f1ed",
-    cardBg: isDark ? "#1c1c1c" : "#ffffff",
-    border: isDark ? "#2a2a2a" : "#e4e2da",
-    textPrimary: isDark ? "#f0f0f0" : "#111111",
-    textSecondary: isDark ? "#777" : "#888",
-    textMuted: isDark ? "#444" : "#bbb",
-    inputBg: isDark ? "#252525" : "#eceae4",
-    inputBorder: isDark ? "#333" : "#dbd9d0",
-    quickBtnBg: isDark ? "#222" : "#fafaf7",
-    quickBtnBorder: isDark ? "#2e2e2e" : "#e0dfd8",
-    quickBtnHover: isDark ? "#2a2a2a" : "#f0efe8",
-    userBubbleBg: "#a855f7",
-    aiBubbleBg: isDark ? "#252525" : "#f7f6f2",
-    aiBubbleBorder: isDark ? "#2e2e2e" : "#e4e2da",
-    scrollbarThumb: isDark ? "#333" : "#ccc",
-    toggleBg: isDark ? "#252525" : "#e8e6e0",
-    toggleBorder: isDark ? "#363636" : "#d4d2ca",
-    iconColor: isDark ? "#555" : "#bbb",
-    iconHover: isDark ? "#888" : "#666",
-    sendBg: isDark ? "#f0f0f0" : "#111",
-    sendIcon: isDark ? "#111" : "#fff",
-    sendDisabledBg: isDark ? "#2a2a2a" : "#e0dfd8",
-    sendDisabledIcon: isDark ? "#444" : "#bbb",
-  };
-
-  const handleQuickAction = (label: string, description: string) => {
-    handleSend(`${label} — ${description}`);
-  };
+  // SEND MESSAGE
 
   const handleSend = async (customInput?: string) => {
     const text = (customInput ?? input).trim();
+
     if (!text) return;
 
     setShowWelcome(false);
@@ -161,62 +143,91 @@ export default function AIChatbox({
 
     setInput("");
 
-    // ✅ FIX: build correct payload manually (NOT stale state)
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+    }
+
     const payload = {
-      messages: [
-        ...messages,
-        userMessage, // safe enough now because we don't rely on UI state
-      ],
+      messages: [...messages, userMessage],
     };
 
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-    if (!response.body) return;
+        body: JSON.stringify(payload),
+      });
 
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
+      if (!response.body) return;
 
-    let fullText = "";
+      const reader = response.body.getReader();
 
-    while (true) {
-      const { done, value } = await reader.read();
-      setIsTyping(false);
-      if (done) {
-        setIsTyping(false);
-        break;
+      const decoder = new TextDecoder();
+
+      let fullText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) {
+          setIsTyping(false);
+
+          break;
+        }
+
+        const chunk = decoder.decode(value, {
+          stream: true,
+        });
+
+        fullText += chunk;
+
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantId
+              ? {
+                  ...m,
+                  content: fullText,
+                }
+              : m,
+          ),
+        );
       }
+    } catch (error) {
+      console.error(error);
 
-      const chunk = decoder.decode(value, { stream: true });
-      fullText += chunk;
-
-      setMessages((prev) =>
-        prev.map((m) =>
-          m.id === assistantId ? { ...m, content: fullText } : m,
-        ),
-      );
+      setIsTyping(false);
     }
-    setIsTyping(false);
   };
+
+  // ENTER SEND
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+
       handleSend();
     }
   };
 
+  // TEXTAREA HEIGHT
+
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
+
     const ta = textareaRef.current;
+
     if (ta) {
       ta.style.height = "auto";
-      ta.style.height = Math.min(ta.scrollHeight, 150) + "px";
+
+      ta.style.height = `${Math.min(ta.scrollHeight, 150)}px`;
     }
   };
+
+  // FILE UPLOAD
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
@@ -235,204 +246,196 @@ export default function AIChatbox({
 
     setInput((prev) => prev + "\n\n" + data.text);
   };
+
+  // CLEAR CHAT
+
+  const clearChat = () => {
+    setMessages([]);
+
+    setShowWelcome(true);
+
+    localStorage.removeItem("ai-chat-messages");
+  };
+
   return (
     <div
       onWheel={(e) => e.stopPropagation()}
-      className={`absolute bottom-0 right-0  flex items-center justify-center  min-w-lg`}
+      className="absolute bottom-0 right-0 flex items-center justify-center"
     >
-      {/* Card */}
-      <div
-        className="transition-all duration-300"
-        style={{
-          width: isMaximized ? "40vw" : 400,
+      {/* CHAT CARD */}
 
-          height: isMaximized ? "90vh" : 600,
-          maxHeight: 700,
-          backgroundColor: t.cardBg,
-          border: `1px solid ${t.border}`,
-          borderRadius: 20,
-          overflowY: "auto",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          boxShadow: isDark
-            ? "0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03)"
-            : "0 24px 60px rgba(0,0,0,0.12)",
-          transition:
-            "width 0.3s ease-in-out, height 0.3s ease-in-out, background-color 0.3s, border-color 0.3s, box-shadow 0.3s",
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 20,
+          scale: 0.95,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
+        }}
+        transition={{
+          duration: 0.25,
+        }}
+        className="
+          transition-all duration-300 ease-in-out
+          dark:bg-[#1c1c1c]
+          bg-white
+          border
+          dark:border-[#2a2a2a]
+          border-[#e4e2da]
+          rounded-2xl
+          flex
+          flex-col
+          overflow-hidden
+          shadow-[0_24px_60px_rgba(0,0,0,0.12)]
+          dark:shadow-[0_32px_80px_rgba(0,0,0,0.6)]
+        "
+        style={{
+          width: isMaximized ? "40vw" : "400px",
+          height: isMaximized ? "90vh" : "600px",
+          maxHeight: "700px",
         }}
       >
-        {/* Header */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "14px 20px",
-            borderBottom: `1px solid ${t.border}`,
-            flexShrink: 0,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ position: "relative" }}>
+        {/* HEADER */}
+
+        <div className="flex items-center justify-between px-5 py-3 border-b border-[#e4e2da] dark:border-[#2a2a2a] shrink-0">
+          {/* LEFT */}
+
+          <div className="flex items-center gap-3">
+            <div className="relative">
               <div
+                className="
+                  w-7.5
+                  h-7.5
+                  rounded-full
+                  flex
+                  items-center
+                  justify-center
+                  text-white
+                  font-bold
+                "
                 style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: "50%",
                   background: "linear-gradient(135deg, #34d399, #0d9488)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "0 2px 8px rgba(52,211,153,0.35)",
                 }}
               >
-                <span className="">AK</span>
+                AK
               </div>
-              <span
-                style={{
-                  position: "absolute",
-                  bottom: -1,
-                  right: -1,
-                  width: 9,
-                  height: 9,
-                  backgroundColor: "#4ade80",
-                  borderRadius: "50%",
-                  border: `2px solid ${t.cardBg}`,
-                }}
-              />
+
+              <span className="absolute -bottom-1 -right-1 w-2 h-2 rounded-full bg-green-400 border-2 border-white dark:border-[#1c1c1c]" />
             </div>
+
             <div>
-              <span
-                style={{
-                  fontWeight: 700,
-                  fontSize: 13.5,
-                  color: t.textPrimary,
-                }}
-              >
+              <h2 className="font-bold text-sm text-[#111] dark:text-[#f0f0f0]">
                 Assistant
-              </span>
-              <span
-                style={{ fontSize: 12, color: t.textSecondary, marginLeft: 7 }}
-              >
+              </h2>
+
+              <p className="text-xs text-[#666] dark:text-[#888]">
                 built by Akash Ali
-              </span>
+              </p>
             </div>
           </div>
-          <div style={{ display: "flex", gap: 4 }}>
-            <button
-              className="p-2 hover:bg-white/5 rounded-md transition-colors duration-100 cursor-pointer text-white/50"
-              onClick={() => {
-                setMessages([]);
-                setShowWelcome(true);
 
-                localStorage.removeItem("ai-chat-messages");
-              }}
-            >
-              <Trash2 size={13} />
-            </button>
+          {/* RIGHT */}
+
+          <div className="flex items-center gap-1">
             <button
-              onClick={handleMaximize}
-              className="p-2 hover:bg-white/5 rounded-md transition-colors duration-100 cursor-pointer text-white/50"
+              onClick={clearChat}
+              className="
+                p-2
+                rounded-md
+                transition-all
+                duration-200
+                cursor-pointer
+                text-black/50
+                dark:text-white/50
+                hover:bg-black/5
+                dark:hover:bg-white/5
+              "
             >
-              <Maximize2 size={13} />
+              <Trash2 size={14} />
             </button>
+
             <button
-              className="p-2 hover:bg-white/5 rounded-md transition-colors duration-100 cursor-pointer text-white/50"
+              onClick={() => setIsMaximized(!isMaximized)}
+              className="
+                p-2
+                rounded-md
+                transition-all
+                duration-200
+                cursor-pointer
+                text-black/50
+                dark:text-white/50
+                hover:bg-black/5
+                dark:hover:bg-white/5
+              "
+            >
+              <Maximize2 size={14} />
+            </button>
+
+            <button
               onClick={() => setIsOpen(false)}
+              className="
+                p-2
+                rounded-md
+                transition-all
+                duration-200
+                cursor-pointer
+                text-black/50
+                dark:text-white/50
+                hover:bg-black/5
+                dark:hover:bg-white/5
+              "
             >
-              <X size={13} />
+              <X size={14} />
             </button>
           </div>
         </div>
 
-        {/* Body */}
-        <div
-          style={{
-            flex: 1,
-            overflowY: "auto",
-            padding: 20,
-            display: "flex",
-            flexDirection: "column",
-            gap: 14,
-            scrollbarWidth: "thin",
-            scrollbarColor: `${t.scrollbarThumb} transparent`,
-          }}
-        >
+        {/* BODY */}
+
+        <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3">
           {showWelcome ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100%",
-              }}
-            >
-              <div
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  paddingBottom: 20,
-                }}
-              >
-                <p
-                  style={{
-                    fontSize: 30,
-                    fontWeight: 800,
-                    color: t.textPrimary,
-                    margin: "0 0 6px",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
+            <div className="flex flex-col items-center justify-center h-full">
+              <div className="text-center mb-6">
+                <h1 className="text-3xl font-extrabold text-[#111] dark:text-[#f0f0f0]">
                   Hello there! 🤚
-                </p>
-                <p style={{ fontSize: 15, color: t.textSecondary, margin: 0 }}>
+                </h1>
+
+                <p className="text-sm text-[#666] dark:text-[#888] mt-1">
                   How can I help you today?
                 </p>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+
+              <div className="w-full flex flex-col gap-2">
                 {quickActions.map((a) => (
                   <button
                     key={a.label}
-                    onClick={() => handleQuickAction(a.label, a.description)}
-                    style={{
-                      width: "100%",
-                      textAlign: "left",
-                      padding: "12px 16px",
-                      borderRadius: 12,
-                      border: `1px solid ${t.quickBtnBorder}`,
-                      backgroundColor: t.quickBtnBg,
-                      cursor: "pointer",
-                      transition: "background-color 0.15s, transform 0.1s",
-                    }}
-                    onMouseEnter={(e) => {
-                      const b = e.currentTarget as HTMLButtonElement;
-                      b.style.backgroundColor = t.quickBtnHover;
-                      b.style.transform = "translateX(3px)";
-                    }}
-                    onMouseLeave={(e) => {
-                      const b = e.currentTarget as HTMLButtonElement;
-                      b.style.backgroundColor = t.quickBtnBg;
-                      b.style.transform = "translateX(0)";
-                    }}
+                    onClick={() => handleSend(`${a.label} — ${a.description}`)}
+                    className="
+                      w-full
+                      text-left
+                      px-4
+                      py-3
+                      rounded-xl
+                      border
+                      border-[#e0dfd8]
+                      dark:border-[#2e2e2e]
+                      bg-[#fafaf7]
+                      dark:bg-[#222]
+                      hover:bg-[#f0efe8]
+                      dark:hover:bg-[#2a2a2a]
+                      transition-all
+                      duration-200
+                      hover:translate-x-1
+                    "
                   >
-                    <span
-                      style={{
-                        fontWeight: 700,
-                        fontSize: 13,
-                        color: t.textPrimary,
-                      }}
-                    >
+                    <span className="font-bold text-sm text-[#111] dark:text-[#f0f0f0]">
                       {a.label}
                     </span>
-                    <span
-                      style={{
-                        fontSize: 13,
-                        color: t.textSecondary,
-                        marginLeft: 8,
-                      }}
-                    >
+
+                    <span className="ml-2 text-sm text-[#666] dark:text-[#888]">
                       {a.description}
                     </span>
                   </button>
@@ -442,133 +445,139 @@ export default function AIChatbox({
           ) : (
             <>
               <AnimatePresence>
-                {messages.map((msg) => (
-                  <motion.div
-                    key={msg.id}
-                    initial={{
-                      opacity: 0,
-                      y: 20,
-                      scale: 0.96,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                      scale: 1,
-                    }}
-                    transition={{
-                      duration: 0.25,
-                      ease: "easeOut",
-                    }}
-                    style={{
-                      display: "flex",
-                      justifyContent:
-                        msg.role === "user" ? "flex-end" : "flex-start",
-                      gap: 10,
-                      alignItems: "flex-start",
-                    }}
-                  >
-                    {msg.role === "assistant" && (
-                      <div
-                        style={{
-                          width: 28,
-                          height: 28,
-                          borderRadius: "50%",
-                          background:
-                            "linear-gradient(135deg, #34d399, #0d9488)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexShrink: 0,
-                          marginTop: 2,
-                        }}
-                      >
-                        <span
+                {messages
+                  .filter((m) => {
+                    if (m.role === "assistant" && !m.content) return false;
+                    return true;
+                  })
+                  .map((msg) => (
+                    <motion.div
+                      key={msg.id}
+                      initial={{
+                        opacity: 0,
+                        y: 15,
+                        scale: 0.97,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                      }}
+                      transition={{
+                        duration: 0.2,
+                      }}
+                      className={`flex gap-2 items-start ${
+                        msg.role === "user" ? "justify-end" : "justify-start"
+                      }`}
+                    >
+                      {/* AVATAR */}
+
+                      {msg.role === "assistant" && (
+                        <div
+                          className="
+                          w-7
+                          h-7
+                          rounded-full
+                          flex
+                          items-center
+                          justify-center
+                          text-white
+                          text-xs
+                          font-bold
+                          shrink-0
+                        "
                           style={{
-                            fontSize: 13,
-                            fontWeight: 700,
-                            color: "#fff",
+                            background:
+                              "linear-gradient(135deg, #34d399, #0d9488)",
                           }}
                         >
                           AK
-                        </span>
-                      </div>
-                    )}
+                        </div>
+                      )}
 
-                    <div
-                      style={{
-                        flex: 1,
-                        overflowY: "auto",
-                        height: "100%",
-                        overflowX: "hidden",
-                        wordBreak: "break-word",
-                        maxWidth: "72%",
-                        padding: "10px 14px",
-                        borderRadius:
+                      {/* MESSAGE */}
+
+                      <div
+                        className={`max-w-[72%] px-4 py-2.5 text-[13.5px] leading-6 wrap-break-word ${
                           msg.role === "user"
-                            ? "18px 18px 4px 18px"
-                            : "18px 18px 18px 4px",
-                        fontSize: 13.5,
-                        lineHeight: 1.6,
-                        backgroundColor:
-                          msg.role === "user" ? t.userBubbleBg : t.aiBubbleBg,
-                        color: msg.role === "user" ? "#fff" : t.textPrimary,
-                        border:
-                          msg.role === "assistant"
-                            ? `1px solid ${t.aiBubbleBorder}`
-                            : "none",
-                        boxShadow:
-                          msg.role === "user"
-                            ? "0 2px 10px rgba(22,163,74,0.25)"
-                            : "none",
-                      }}
-                    >
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {msg.content}
-                      </ReactMarkdown>
-                    </div>
-                  </motion.div>
-                ))}
+                            ? `
+                            rounded-[18px]
+                            rounded-br-lg
+                            bg-purple-500
+                            text-white
+                            shadow-md
+                          `
+                            : `
+                            rounded-[18px]
+                            rounded-bl-lg
+                            bg-[#f7f6f2]
+                            dark:bg-[#252525]
+                            border
+                            border-[#e4e2da]
+                            dark:border-[#2e2e2e]
+                            text-[#111]
+                            dark:text-[#f0f0f0]
+                          `
+                        }`}
+                      >
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {msg.content}
+                        </ReactMarkdown>
+                      </div>
+                    </motion.div>
+                  ))}
               </AnimatePresence>
-              <div ref={chatEndRef} />
+
+              {/* TYPING */}
+
               {isTyping && (
-                <div
-                  style={{ display: "flex", gap: 10, alignItems: "flex-start" }}
-                >
+                <div className="flex items-start gap-2">
                   <div
+                    className="
+                      w-7
+                      h-7
+                      rounded-full
+                      flex
+                      items-center
+                      justify-center
+                      text-white
+                      text-xs
+                      font-bold
+                    "
                     style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "50%",
                       background: "linear-gradient(135deg, #34d399, #0d9488)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
                     }}
                   >
                     AK
                   </div>
+
                   <div
-                    style={{
-                      padding: "12px 16px",
-                      borderRadius: "18px 18px 18px 4px",
-                      backgroundColor: t.aiBubbleBg,
-                      border: `1px solid ${t.aiBubbleBorder}`,
-                      display: "flex",
-                      gap: 5,
-                      alignItems: "center",
-                    }}
+                    className="
+                      px-4
+                      py-3
+                      rounded-[18px]
+                      rounded-bl-lg
+                      bg-[#f7f6f2]
+                      dark:bg-[#252525]
+                      border
+                      border-[#e4e2da]
+                      dark:border-[#2e2e2e]
+                      flex
+                      items-center
+                      gap-1.5
+                    "
                   >
                     {[0, 150, 300].map((d) => (
                       <span
                         key={d}
+                        className="
+                          w-1.5
+                          h-1.5
+                          rounded-full
+                          bg-purple-500
+                          animate-bounce
+                        "
                         style={{
-                          width: 6,
-                          height: 6,
-                          borderRadius: "50%",
-                          backgroundColor: "#a855f7",
-                          display: "inline-block",
-                          animation: "bounce 1s infinite",
                           animationDelay: `${d}ms`,
                         }}
                       />
@@ -576,60 +585,62 @@ export default function AIChatbox({
                   </div>
                 </div>
               )}
+
+              <div ref={chatEndRef} />
             </>
           )}
         </div>
 
-        {/* Input */}
-        <div
-          style={{
-            padding: "10px 16px 16px",
-            borderTop: `1px solid ${t.border}`,
-            flexShrink: 0,
-          }}
-        >
+        {/* INPUT */}
+
+        <div className="p-4 border-t border-[#e4e2da] dark:border-[#2a2a2a] shrink-0">
           <div
-            style={{
-              borderRadius: 16,
-              border: `1px solid ${t.inputBorder}`,
-              backgroundColor: t.inputBg,
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",
-            }}
+            className="
+              rounded-2xl
+              border
+              border-[#dbd9d0]
+              dark:border-[#333]
+              bg-[#eceae4]
+              dark:bg-[#252525]
+              flex
+              flex-col
+              overflow-hidden
+            "
           >
+            {/* TEXTAREA */}
+
             <textarea
               ref={textareaRef}
               value={input}
-              className="w-full resize-none outline-none bg-transparent text-white placeholder:text-white/50"
               onChange={handleTextareaChange}
               onKeyDown={handleKeyDown}
-              placeholder="Send a message... (type / for commands)"
               rows={1}
-              style={{
-                width: "100%",
-                padding: "12px 16px 4px",
-                backgroundColor: "transparent",
-                border: "none",
-                outline: "none",
-                resize: "none",
-                fontSize: 13.5,
-                lineHeight: 1.6,
-                color: t.textPrimary,
-                fontFamily: "inherit",
-                maxHeight: 150,
-                boxSizing: "border-box",
-              }}
+              placeholder="Send a message..."
+              className="
+                w-full
+                resize-none
+                bg-transparent
+                outline-none
+                border-none
+                px-4
+                pt-3
+                pb-1
+                text-[13.5px]
+                leading-6
+                text-[#111]
+                dark:text-[#f0f0f0]
+                placeholder:text-black/40
+                dark:placeholder:text-white/40
+               max-h-37.5
+              "
             />
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "4px 10px 10px",
-              }}
-            >
-              <div style={{ display: "flex", gap: 4 }}>
+
+            {/* ACTIONS */}
+
+            <div className="flex items-center justify-between px-2 pb-2">
+              {/* LEFT */}
+
+              <div className="flex items-center gap-1">
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -637,70 +648,92 @@ export default function AIChatbox({
                   onChange={handleFileUpload}
                 />
 
+                {/* FILE */}
+
                 <button
-                  className="p-2 hover:bg-white/5 rounded-md transition-colors duration-100 cursor-pointer text-white/50"
                   onClick={() => fileInputRef.current?.click()}
+                  className="
+                    p-2
+                    rounded-md
+                    transition-all
+                    duration-200
+                    cursor-pointer
+                    text-black/50
+                    dark:text-white/50
+                    hover:bg-black/5
+                    dark:hover:bg-white/5
+                  "
                 >
-                  <Paperclip size={13} />
+                  <Paperclip size={14} />
                 </button>
+
+                {/* MIC */}
+
                 <button
-                  className={`p-2 rounded-md transition-all duration-200 cursor-pointer ${
-                    listening
-                      ? "bg-purple-500/20 text-purple-400 animate-pulse"
-                      : "text-white/50 hover:bg-white/5 hover:text-white"
-                  }`}
                   onClick={handleVoice}
+                  className={`
+                    p-2
+                    rounded-md
+                    transition-all
+                    duration-200
+                    cursor-pointer
+                    ${
+                      listening
+                        ? "bg-purple-500/20 text-purple-400 animate-pulse"
+                        : `
+                          text-black/50
+                          dark:text-white/50
+                          hover:bg-black/5
+                          dark:hover:bg-white/5
+                        `
+                    }
+                  `}
                 >
-                  {listening ? <CircleStop size={13} /> : <Mic size={13} />}
+                  {listening ? <CircleStop size={14} /> : <Mic size={14} />}
                 </button>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <button
-                  onClick={() => handleSend()}
-                  disabled={!input.trim()}
-                  style={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: "50%",
-                    border: "none",
-                    backgroundColor: input.trim() ? t.sendBg : t.sendDisabledBg,
-                    color: input.trim() ? t.sendIcon : t.sendDisabledIcon,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: input.trim() ? "pointer" : "not-allowed",
-                    transition: "background-color 0.2s, transform 0.1s",
-                    boxShadow: input.trim()
-                      ? "0 2px 8px rgba(0,0,0,0.2)"
-                      : "none",
-                    flexShrink: 0,
-                  }}
-                  onMouseEnter={(e) => {
-                    if (input.trim())
-                      (e.currentTarget as HTMLButtonElement).style.transform =
-                        "scale(1.08)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.transform =
-                      "scale(1)";
-                  }}
-                >
-                  <ArrowUp size={16} />
-                </button>
-              </div>
+
+              {/* SEND */}
+
+              <button
+                onClick={() => handleSend()}
+                disabled={!input.trim()}
+                className={`
+                  w-8
+                  h-8
+                  rounded-full
+                  flex
+                  items-center
+                  justify-center
+                  transition-all
+                  duration-200
+                  shrink-0
+                  ${
+                    input.trim()
+                      ? `
+                        bg-black
+                        dark:bg-white
+                        text-white
+                        dark:text-black
+                        hover:scale-110
+                        cursor-pointer
+                      `
+                      : `
+                        bg-[#e0dfd8]
+                        dark:bg-[#2a2a2a]
+                        text-[#bbb]
+                        dark:text-[#444]
+                        cursor-not-allowed
+                      `
+                  }
+                `}
+              >
+                <ArrowUp size={16} />
+              </button>
             </div>
           </div>
         </div>
-      </div>
-
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-        * { box-sizing: border-box; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: ${t.scrollbarThumb}; border-radius: 4px; }
-      `}</style>
+      </motion.div>
     </div>
   );
 }
