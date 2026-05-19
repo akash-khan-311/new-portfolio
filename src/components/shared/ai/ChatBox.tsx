@@ -1,7 +1,15 @@
 /* eslint-disable react-hooks/immutability */
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUp, Maximize2, Mic, Paperclip, Trash2, X } from "lucide-react";
+import {
+  ArrowUp,
+  CircleStop,
+  Maximize2,
+  Mic,
+  Paperclip,
+  Trash2,
+  X,
+} from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import SpeechRecognition, {
@@ -69,14 +77,15 @@ export default function AIChatbox({
 
     if (listening) {
       SpeechRecognition.stopListening();
-    } else {
-      resetTranscript();
-
-      await SpeechRecognition.startListening({
-        continuous: true,
-        language: "en-US",
-      });
+      return;
     }
+
+    resetTranscript();
+
+    await SpeechRecognition.startListening({
+      continuous: true,
+      language: "en-US",
+    });
   };
   useEffect(() => {
     setInput(transcript);
@@ -635,29 +644,14 @@ export default function AIChatbox({
                   <Paperclip size={13} />
                 </button>
                 <button
-                  className={`p-2 rounded-md transition-colors duration-100 cursor-pointer ${
+                  className={`p-2 rounded-md transition-all duration-200 cursor-pointer ${
                     listening
-                      ? "bg-green-500/20 text-green-400"
-                      : "text-white/50 hover:bg-white/5"
+                      ? "bg-purple-500/20 text-purple-400 animate-pulse"
+                      : "text-white/50 hover:bg-white/5 hover:text-white"
                   }`}
-                  onClick={() => {
-                    if (!browserSupportsSpeechRecognition) {
-                      alert("Browser doesn't support speech recognition");
-                      return;
-                    }
-
-                    if (listening) {
-                      SpeechRecognition.stopListening();
-                    } else {
-                      resetTranscript();
-
-                      SpeechRecognition.startListening({
-                        continuous: true,
-                      });
-                    }
-                  }}
+                  onClick={handleVoice}
                 >
-                  <Mic size={13} />
+                  {listening ? <CircleStop size={13} /> : <Mic size={13} />}
                 </button>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
