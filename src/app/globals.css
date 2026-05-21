@@ -128,10 +128,10 @@
 .bg-primary {
   background-color: #b5ff6d;
 }
-html,
+/* html,
 body {
   overflow-x: hidden;
-}
+} */
 
 html.lenis,
 html.lenis body {
@@ -264,7 +264,11 @@ html.lenis body {
   --index: 4;
 }
 
+
 .sticky-card {
-   padding-top: calc(var(--index) * 0.5rem);
+  position: sticky;
+  
   top: calc(var(--index) * 4rem);
+
+  padding-top: calc(var(--index) * 0.5rem);
 }

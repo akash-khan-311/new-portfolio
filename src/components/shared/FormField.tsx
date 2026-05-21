@@ -67,7 +67,7 @@ const FormField: React.FC<FormFieldProps> = ({
 }) => {
   const error = errors?.[name];
 
-  // 🔹 Dynamic array input
+  // Dynamic array input
   if (isArray && fields.length > 0) {
     return (
       <div className="w-full">

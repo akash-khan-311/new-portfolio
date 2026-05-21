@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { handlePortfolioIntent } from "@/lib/ai/handler";
-import { detectIntent } from "@/lib/ai/IntentRouter";
-import { handlePortfolioQuestions } from "@/lib/ai/skillMatcher";
+import { portfolioContext } from "@/lib/ai/portfolioContext";
+
 import { SYSTEM_PROMPT } from "@/lib/ai/systemPrompt";
 import Groq from "groq-sdk";
+import { ChatCompletionMessageParam } from "groq-sdk/resources/chat/completions.mjs";
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY!,
@@ -14,68 +15,66 @@ export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
 
-    const latest = messages[messages.length - 1]?.content?.toLowerCase() || "";
-
-    const intent = detectIntent(latest);
-    const direct = intent && handlePortfolioIntent(intent);
-
-    if (direct) {
-      return new Response(direct, {
-        headers: { "Content-Type": "text/plain" },
-      });
-    }
-
-    const matched = handlePortfolioQuestions(latest);
-    if (matched) {
-      return new Response(matched, {
-        headers: { "Content-Type": "text/plain" },
-      });
-    }
-
-    if (latest.includes("resume") || latest.includes("cv")) {
-      return new Response(
-        "Resume Link: https://sie4z1povjuezbay.public.blob.vercel-storage.com/MERN%20Resume%20%2830-03-2026%29-K90j5gG8LZkptpos16s6ZcKV0LQr0l.pdf",
-        {
-          headers: { "Content-Type": "text/plain" },
-        },
+    if (!messages || !Array.isArray(messages)) {
+      return Response.json(
+        { error: "Invalid messages format" },
+        { status: 400 },
       );
     }
+
+    // Clean + safe latest message 
+    const latest = messages[messages.length - 1]?.content?.toLowerCase() || "";
+
+    // GROQ STREAM COMPLETION
+    const userMessages: ChatCompletionMessageParam[] = messages.map(
+      (m: any) =>
+        ({
+          role: m.role === "assistant" ? "assistant" : "user",
+          content: String(m.content || ""),
+        }) as ChatCompletionMessageParam,
+    );
 
     const completion = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
       stream: true,
-
       messages: [
         {
           role: "system",
-          content: SYSTEM_PROMPT,
+          content: SYSTEM_PROMPT + "\n\n" + portfolioContext,
         },
 
-        // IMPORTANT: clean mapping (NO id, NO extra fields)
-        ...messages.map((m: any) => ({
-          role: m.role,
-          content: m.content,
-        })),
+        ...userMessages,
       ],
     });
 
-    // STREAM RESPONSE
-
+    // Stream response back to client
     const encoder = new TextEncoder();
 
     const stream = new ReadableStream({
       async start(controller) {
-        for await (const chunk of completion) {
-          const text = chunk.choices[0]?.delta?.content || "";
-          controller.enqueue(encoder.encode(text));
+        try {
+          for await (const chunk of completion) {
+            const text = chunk.choices[0]?.delta?.content || "";
+            if (text) {
+              controller.enqueue(encoder.encode(text));
+            }
+          }
+        } catch (err) {
+          console.error("Stream error:", err);
+        } finally {
+          controller.close();
         }
-        controller.close();
       },
     });
 
-    return new Response(stream);
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-cache",
+      },
+    });
   } catch (error) {
-    console.log(error);
+    console.error("API Error:", error);
 
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }

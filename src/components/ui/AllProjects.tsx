@@ -1,5 +1,4 @@
 import { TProject } from "@/interface";
-import React from "react";
 import ProjectCard from "./ProjectCard";
 
 export default function AllProjects({ projects }: { projects: TProject[] }) {

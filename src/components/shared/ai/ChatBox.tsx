@@ -67,7 +67,7 @@ export default function AIChatbox({
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
-  // AUTO SCROLL
+  // scroll to bottom on new message
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -78,7 +78,7 @@ export default function AIChatbox({
     });
   }, [messages]);
 
-  // SAVE CHAT
+  // save the chat
 
   useEffect(() => {
     localStorage.setItem("ai-chat-messages", JSON.stringify(messages));
@@ -88,7 +88,7 @@ export default function AIChatbox({
     }
   }, [messages]);
 
-  // VOICE
+  // voice
 
   const handleVoice = async () => {
     if (!browserSupportsSpeechRecognition) {
@@ -115,7 +115,7 @@ export default function AIChatbox({
     setInput(transcript);
   }, [transcript]);
 
-  // SEND MESSAGE
+  // send message
 
   const handleSend = async (customInput?: string) => {
     const text = (customInput ?? input).trim();
@@ -146,9 +146,10 @@ export default function AIChatbox({
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
     }
+    const updatedMessages = [...messages, userMessage];
 
     const payload = {
-      messages: [...messages, userMessage],
+      messages: updatedMessages,
     };
 
     try {
@@ -202,7 +203,7 @@ export default function AIChatbox({
     }
   };
 
-  // ENTER SEND
+  // handle textarea enter key
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -212,7 +213,7 @@ export default function AIChatbox({
     }
   };
 
-  // TEXTAREA HEIGHT
+  // auto resize textarea
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
@@ -226,7 +227,7 @@ export default function AIChatbox({
     }
   };
 
-  // FILE UPLOAD
+  // handle file upload
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -247,7 +248,7 @@ export default function AIChatbox({
     setInput((prev) => prev + "\n\n" + data.text);
   };
 
-  // CLEAR CHAT
+  // clear chat
 
   const clearChat = () => {
     setMessages([]);
@@ -262,7 +263,7 @@ export default function AIChatbox({
       onWheel={(e) => e.stopPropagation()}
       className="absolute bottom-0 right-0 flex items-center justify-center"
     >
-      {/* CHAT CARD */}
+      {/* chat Card */}
 
       <motion.div
         initial={{
@@ -298,10 +299,10 @@ export default function AIChatbox({
           maxHeight: "700px",
         }}
       >
-        {/* HEADER */}
+        {/* header */}
 
         <div className="flex items-center justify-between px-5 py-3 border-b border-[#e4e2da] dark:border-[#2a2a2a] shrink-0">
-          {/* LEFT */}
+          {/* left side */}
 
           <div className="flex items-center gap-3">
             <div className="relative">
@@ -337,7 +338,7 @@ export default function AIChatbox({
             </div>
           </div>
 
-          {/* RIGHT */}
+          {/* right side */}
 
           <div className="flex items-center gap-1">
             <button
@@ -393,7 +394,7 @@ export default function AIChatbox({
           </div>
         </div>
 
-        {/* BODY */}
+        {/* chat  body */}
 
         <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3">
           {showWelcome ? (
@@ -470,7 +471,7 @@ export default function AIChatbox({
                         msg.role === "user" ? "justify-end" : "justify-start"
                       }`}
                     >
-                      {/* AVATAR */}
+                      {/* profile or avatar */}
 
                       {msg.role === "assistant" && (
                         <div
@@ -495,7 +496,7 @@ export default function AIChatbox({
                         </div>
                       )}
 
-                      {/* MESSAGE */}
+                      {/* message */}
 
                       <div
                         className={`max-w-[72%] px-4 py-2.5 text-[13.5px] leading-6 wrap-break-word ${
@@ -528,7 +529,7 @@ export default function AIChatbox({
                   ))}
               </AnimatePresence>
 
-              {/* TYPING */}
+              {/* typing indicator */}
 
               {isTyping && (
                 <div className="flex items-start gap-2">
@@ -591,7 +592,7 @@ export default function AIChatbox({
           )}
         </div>
 
-        {/* INPUT */}
+        {/* text input */}
 
         <div className="p-4 border-t border-[#e4e2da] dark:border-[#2a2a2a] shrink-0">
           <div
@@ -607,7 +608,7 @@ export default function AIChatbox({
               overflow-hidden
             "
           >
-            {/* TEXTAREA */}
+            {/* textarea */}
 
             <textarea
               ref={textareaRef}
@@ -635,10 +636,10 @@ export default function AIChatbox({
               "
             />
 
-            {/* ACTIONS */}
+            {/* actions */}
 
             <div className="flex items-center justify-between px-2 pb-2">
-              {/* LEFT */}
+              {/* file upload and voice input */}
 
               <div className="flex items-center gap-1">
                 <input
@@ -647,8 +648,6 @@ export default function AIChatbox({
                   hidden
                   onChange={handleFileUpload}
                 />
-
-                {/* FILE */}
 
                 <button
                   onClick={() => fileInputRef.current?.click()}
@@ -666,8 +665,6 @@ export default function AIChatbox({
                 >
                   <Paperclip size={14} />
                 </button>
-
-                {/* MIC */}
 
                 <button
                   onClick={handleVoice}
@@ -693,7 +690,7 @@ export default function AIChatbox({
                 </button>
               </div>
 
-              {/* SEND */}
+              {/* send */}
 
               <button
                 onClick={() => handleSend()}

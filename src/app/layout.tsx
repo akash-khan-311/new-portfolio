@@ -48,7 +48,7 @@ export default function RootLayout({
       <body className="relative">
         <ThemeGuard />
         <LenisProvider>
-          <ScrollToTop />
+          {/* <ScrollToTop /> */}
           <EyeFollower />
           <ClientWraper>{children}</ClientWraper>
         </LenisProvider>

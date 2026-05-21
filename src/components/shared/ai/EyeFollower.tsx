@@ -1,13 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 "use client";
-
 import { useEffect, useRef, useState } from "react";
-
 import AIChatbox from "./ChatBox";
-
-// =====================================================
-// TYPES
-// =====================================================
 
 type Message = {
   role: "user" | "assistant";
@@ -34,8 +29,8 @@ export default function EyeFollower() {
       const dx = e.clientX - eyeX;
       const dy = e.clientY - eyeY;
 
-      // 🎯 radius control (important fix)
-      const maxDistance = 4; // smaller = stays inside eye
+      //  radius control
+      const maxDistance = 4; 
 
       const angle = Math.atan2(dy, dx);
 

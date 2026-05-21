@@ -58,9 +58,9 @@ export default function Projects() {
                 <div
                   id={`sticky-card-${index + 1}`}
                   key={index}
-                  className="sticky-card w-full mx-auto  sticky"
+                  className="sticky-card w-full mx-auto"
                 >
-                  <div className="box-border flex items-center justify-center rounded shadow-[0_0_30px_0_rgba(0,0,0,0.3)] transition-all duration-500">
+                  <div className="rounded shadow-[0_0_30px_0_rgba(0,0,0,0.3)] transition-all duration-500">
                     <ProjectCard project={project} />
                   </div>
                 </div>
