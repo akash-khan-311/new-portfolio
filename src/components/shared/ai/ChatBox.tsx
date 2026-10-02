@@ -189,9 +189,9 @@ export default function AIChatbox({
           prev.map((m) =>
             m.id === assistantId
               ? {
-                  ...m,
-                  content: fullText,
-                }
+                ...m,
+                content: fullText,
+              }
               : m,
           ),
         );
@@ -467,9 +467,8 @@ export default function AIChatbox({
                       transition={{
                         duration: 0.2,
                       }}
-                      className={`flex gap-2 items-start ${
-                        msg.role === "user" ? "justify-end" : "justify-start"
-                      }`}
+                      className={`flex gap-2 items-start ${msg.role === "user" ? "justify-end" : "justify-start"
+                        }`}
                     >
                       {/* profile or avatar */}
 
@@ -499,8 +498,7 @@ export default function AIChatbox({
                       {/* message */}
 
                       <div
-                        className={`max-w-[72%] px-4 py-2.5 text-[13.5px] leading-6 wrap-break-word ${
-                          msg.role === "user"
+                        className={`min-w-0 max-w-[72%] overflow-hidden px-4 py-2.5 text-[13.5px] leading-6 wrap-break-word ${msg.role === "user"
                             ? `
                             rounded-[18px]
                             rounded-br-lg
@@ -519,7 +517,7 @@ export default function AIChatbox({
                             text-[#111]
                             dark:text-[#f0f0f0]
                           `
-                        }`}
+                          }`}
                       >
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {msg.content}
@@ -674,10 +672,9 @@ export default function AIChatbox({
                     transition-all
                     duration-200
                     cursor-pointer
-                    ${
-                      listening
-                        ? "bg-purple-500/20 text-purple-400 animate-pulse"
-                        : `
+                    ${listening
+                      ? "bg-purple-500/20 text-purple-400 animate-pulse"
+                      : `
                           text-black/50
                           dark:text-white/50
                           hover:bg-black/5
@@ -705,9 +702,8 @@ export default function AIChatbox({
                   transition-all
                   duration-200
                   shrink-0
-                  ${
-                    input.trim()
-                      ? `
+                  ${input.trim()
+                    ? `
                         bg-black
                         dark:bg-white
                         text-white
@@ -715,7 +711,7 @@ export default function AIChatbox({
                         hover:scale-110
                         cursor-pointer
                       `
-                      : `
+                    : `
                         bg-[#e0dfd8]
                         dark:bg-[#2a2a2a]
                         text-[#bbb]
